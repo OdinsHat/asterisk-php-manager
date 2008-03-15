@@ -5,8 +5,8 @@
  * its built in Manager API.  This will allow you to execute manager commands
  * for administration and maintenance of the server.
  * 
- * @category
- * @package AsteriskInterface
+ * @category Net
+ * @package Net_AsteriskManager
  * @author Doug Bromley <doug.bromley@gmail.com>
  * @copyright Doug Bromley 2008
  * @license GPL v3
@@ -46,9 +46,8 @@
 
 /**
  * Class for accessing the Asterisk Manager interface {@link }
- *
  */
-class AsteriskInterface
+class AsteriskManager
 {
     /**
      * The Asterisk server which will recieve the manager commands 
