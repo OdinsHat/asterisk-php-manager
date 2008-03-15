@@ -275,6 +275,21 @@ class AsteriskInterface
             return false;
         }
     }
+
+    /**
+     * Get a list of SIP peers and their status
+     * return string|bool
+     */
+    function sipPeers()
+    {
+        if($this->socket) {
+            fputs($this->socket, "Action: Sippeers");
+            $response = stream_get_contents($this->socket);
+            return $reponse;
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>
