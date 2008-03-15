@@ -113,6 +113,10 @@ class AsteriskInterface
         }
     }
 
+    /**
+     * Login into Asterisk Manager interface to perform commands
+     * @return bool
+     */
     function login()
     {
         fputs($this->_socket, "Action: login\r\n");
@@ -178,14 +182,47 @@ class AsteriskInterface
     /**
      * Make a call to an extension with a given channel acting as the originator
      * @param string $extension The number to dial
-     * @param string $channel The channel string of the originating handset
+     * @param string $channel The channel where you wish to originate the call
      * @param string $context The context that the call will be dropped into 
+     * @param string $extension The extension to use on connection
      * @param integer $priority The priority of this command
+     * @param string $cid The caller ID to use
+     * @param integer $timeout Timeout in milliseconds before attempt dropped
+     * @param array $variables An array of variables to pass to Asterisk
+     * @param string $action_id A unique identifier for this command
+     * @return bool
      */
-    function originateCall($extension, $channel, $context, $priority = 1)
+    function originateCall($extension, 
+                           $channel, 
+                           $context, 
+                           $extension, 
+                           $priority = 1, 
+                           $cid, 
+                           $timeout = 30000, 
+                           $variables = null, 
+                           $action_id = null)
     {
         if($this->_socket) {
-            
+            fputs($this->_socket, "Action: Originate\r\n");
+            fputs($this->_socket, "Channel: $channel\r\n");
+            fputs($this->_socket, "Context: $context\r\n");
+            fputs($this->_socket, "Exten: $extension\r\n");
+            fputs($this->_socket, "Priority: $priority\r\n");
+            fputs($this->_socket, "Callerid: $cid\r\n");
+            fputs($this->_socket, "Timeout: $timeout\r\n");
+
+            if(count($variables > 0)) {
+                $variables = implode('|', $variables);
+                fputs($this->_socket, "Variable: $variables\r\n");
+            }
+
+            if($action_id) {
+                fputs($this->_socket, "ActionID: $action_id\r\n");
+            }
+            fputs($this->_socket, "\r\n");
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -283,7 +320,7 @@ class AsteriskInterface
     function sipPeers()
     {
         if($this->_socket) {
-            fputs($this->_socket, "Action: Sippeers");
+            fputs($this->_socket, "Action: Sippeers\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $reponse;
         } else {
@@ -298,7 +335,7 @@ class AsteriskInterface
     function iaxPeers() 
     {
         if($this->_socket) {
-            fputs($this->_socket, "Action: IAXPeers");
+            fputs($this->_socket, "Action: IAXPeers\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $reponse;
         } else {
