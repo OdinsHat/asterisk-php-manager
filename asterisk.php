@@ -225,6 +225,21 @@ class AsteriskManager
     }
 
     /**
+     * Returns a list of queues and their status
+     * @return string|bool
+     */
+    function queues()
+    {
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Queues\r\n\r\n");
+            $response = stream_get_contents($this->_socket);
+            return $response;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Add a handset to a queue on the server
      * @param string $queue The name of the queue you wish to add the handset too
      * @param string The handset you wish to add.  Must include the protocol type, e.g. SIP/234
