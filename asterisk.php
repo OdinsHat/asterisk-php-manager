@@ -290,6 +290,21 @@ class AsteriskInterface
             return false;
         }
     }
+
+    /**
+     * Return a list of IAX peers and their status
+     * @return string|bool
+     */
+    function iaxPeers() 
+    {
+        if($this->_socket) {
+            fputs($this->_socket, "Action: IAXPeers");
+            $response = stream_get_contents($this->_socket);
+            return $reponse;
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>
