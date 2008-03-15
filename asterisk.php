@@ -5,13 +5,14 @@
  * its built in Manager API.  This will allow you to execute manager commands
  * for administration and maintenance of the server.
  * 
- * @category Net
- * @package Net_AsteriskManager
- * @author Doug Bromley <doug.bromley@gmail.com>
- * @copyright Doug Bromley 2008
- * @license New BSD License
- * @link http://www.straw-dogs.co.uk
- * PHP5 only
+ * PHP version 5
+ *
+ * @category  Net
+ * @package   Net_AsteriskManager
+ * @author    Doug Bromley <doug.bromley@gmail.com>
+ * @copyright 2008 Doug Bromley
+ * @license   New BSD License
+ * @link      http://www.straw-dogs.co.uk
  *
  ***
  * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
@@ -44,9 +45,14 @@
  */
 
 /**
- * Class for accessing the Asterisk Manager interface {@link }
+ * Class for accessing the Asterisk Manager interface 
+ * {@link http://www.voip-info.org/wiki/view/Asterisk+manager+API}
+ * 
  * @category Net
- * @package Net_AsteriskManager
+ * @package  Net_AsteriskManager
+ * @author   Doug Bromley <doug.bromley@gmail.com>
+ * @license  New BSD License
+ * @link     http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
 class AsteriskManager
 {
@@ -87,10 +93,12 @@ class AsteriskManager
 
     /**
      * Class constructor
-     * @param string $server The server hostname or IP address
-     * @param string $username Username credential for the manager interface
-     * @param string $password The password for the manager interface
-     * @param integer $port The port the interface is listening on
+     * 
+     * @param string  $server   The server hostname or IP address
+     * @param string  $username Username credential for the manager interface
+     * @param string  $password The password for the manager interface
+     * @param integer $port     The port the interface is listening on
+     * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
      * @uses AsteriskManager::$username
@@ -99,18 +107,18 @@ class AsteriskManager
      */
     function __construct($server, $username, $password, $port = 5038)
     {
-        $this->server = $server;
+        $this->server   = $server;
         $this->username = $username;
         $this->password = $password;
-        $this->port = $port;
+        $this->port     = $port;
 
-        if($this->_socket) {
+        if ($this->_socket) {
             $this->close();
         }
 
-        if($this->_socket = fsockopen($this->server, $this->port)) {
+        if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
-            if(!self::login()) {
+            if (!self::login()) {
                 $this->error = 'Authentication failure';
                 $this->close();
             }
@@ -122,6 +130,7 @@ class AsteriskManager
 
     /**
      * Login into Asterisk Manager interface
+     * 
      * @return bool
      */
     function login()
@@ -130,7 +139,7 @@ class AsteriskManager
         fputs($this->_socket, "Username: {$this->username}\r\n");
         fputs($this->_socket, "Secret: {$this->password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
-        if(strpos($response, "Message: Authentication accepted") != FALSE) {
+        if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
         } else {
             return false;
@@ -139,12 +148,12 @@ class AsteriskManager
 
     /**
      * Logout of the current manager session attached to $this::socket
-     * @access public
+     * 
      * @return bool
      */
     function logout()
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Logoff\r\n\r\n");
             fclose($this->_socket);
             return true;
@@ -154,12 +163,12 @@ class AsteriskManager
 
     /**
      * Just kill the connection without logging off
-     * @access public
+     *
      * @return bool
      */
     function close()
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             return fclose($this->_socket);
         }
 
@@ -168,12 +177,14 @@ class AsteriskManager
 
     /**
      * Send a command to the Asterisk CLI interface
-     * @param string $command
+     *
+     * @param string $command Command to execute on server
+     *
      * @return string|bool
      */
     function command($command)
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Command\r\n");
             fputs($this->_socket, "Command: $command\r\n\r\n");
             
@@ -184,14 +195,15 @@ class AsteriskManager
 
     /**
      * A simple 'ping' command which the server responds with 'pong'
+     *
      * @return bool
      */
     function ping()
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs("Action: Ping\r\n\r\n");
             $response = stream_get_contents($this->_socket);
-            if(strpos($reponse, "Pong") === FALSE) {
+            if (strpos($reponse, "Pong") ===false) {
                 $this->error = 'No pong received from server!';
                 return false;
             } else {
@@ -204,28 +216,30 @@ class AsteriskManager
 
     /**
      * Make a call to an extension with a given channel acting as the originator
-     * @param string $extension The number to dial
-     * @param string $channel The channel where you wish to originate the call
-     * @param string $context The context that the call will be dropped into 
-     * @param string $extension The extension to use on connection
-     * @param integer $priority The priority of this command
-     * @param string $cid The caller ID to use
-     * @param integer $timeout Timeout in milliseconds before attempt dropped
-     * @param array $variables An array of variables to pass to Asterisk
-     * @param string $action_id A unique identifier for this command
+     *
+     * @param string  $extension The number to dial
+     * @param string  $channel   The channel where you wish to originate the call
+     * @param string  $context   The context that the call will be dropped into 
+     * @param string  $extension The extension to use on connection
+     * @param string  $cid       The caller ID to use
+     * @param integer $priority  The priority of this command
+     * @param integer $timeout   Timeout in milliseconds before attempt dropped
+     * @param array   $variables An array of variables to pass to Asterisk
+     * @param string  $action_id A unique identifier for this command
+     *
      * @return bool
      */
     function originateCall($extension, 
                            $channel, 
                            $context, 
                            $extension, 
-                           $priority = 1, 
                            $cid, 
+                           $priority = 1, 
                            $timeout = 30000, 
                            $variables = null, 
                            $action_id = null)
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Originate\r\n");
             fputs($this->_socket, "Channel: $channel\r\n");
             fputs($this->_socket, "Context: $context\r\n");
@@ -234,12 +248,12 @@ class AsteriskManager
             fputs($this->_socket, "Callerid: $cid\r\n");
             fputs($this->_socket, "Timeout: $timeout\r\n");
 
-            if(count($variables > 0)) {
+            if (count($variables > 0)) {
                 $variables = implode('|', $variables);
                 fputs($this->_socket, "Variable: $variables\r\n");
             }
 
-            if($action_id) {
+            if ($action_id) {
                 fputs($this->_socket, "ActionID: $action_id\r\n");
             }
             fputs($this->_socket, "\r\n");
@@ -251,11 +265,12 @@ class AsteriskManager
 
     /**
      * Returns a list of queues and their status
+     *
      * @return string|bool
      */
     function queues()
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Queues\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $response;
@@ -266,17 +281,20 @@ class AsteriskManager
 
     /**
      * Add a handset to a queue on the server
-     * @param string $queue The name of the queue you wish to add the handset too
-     * @param string The handset you wish to add.  Must include the protocol type, e.g. SIP/234
+     * 
+     * @param string  $queue   The name of the queue you wish to add the handset too
+     * @param string  $handset The handset to add, e.g. SIP/234
+     * @param integer $penalty Penalty
+     * 
      * @return bool
      */
     function queueAdd($queue, $handset, $penalty)
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: QueueAdd\r\n");
             fputs($this->_socket, "Queue: $queue\r\n");
             fputs($this->_socket, "Interface: $handset\r\n");
-            if($penalty) {
+            if ($penalty) {
                 fputs($this->_socket, "Penalty: $penalty\r\n\r\n");
             } else {
                 fputs($this->_socket, "\r\n");
@@ -289,13 +307,15 @@ class AsteriskManager
 
     /**
      * Remove a handset from the given queue
-     * @param string $queue The queue you wish to perform this action on
+     * 
+     * @param string $queue   The queue you wish to perform this action on
      * @param string $handset The handset you wish to remove (e.g. SIP/200)
+     *
      * @return bool
      */
     function queueRemove($queue, $handset) 
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: QueueRemove\r\n");
             fputs($this->_socket, "Queue: $queue\r\n");
             fputs($this->_socket, "Interface: $handset\r\n\r\n");
@@ -307,14 +327,17 @@ class AsteriskManager
 
     /**
      * Monitor(record) a channel to given file in given format
-     * @param string $channel Channel to monitor (e.g. SIP/234, ZAP/1)
-     * @param string $filename The filename to save to
-     * @param string $format The format of the file (e.g. gsm, wav)
-     * @param integer $mix
+     *
+     * @param string  $channel  Channel to monitor (e.g. SIP/234, ZAP/1)
+     * @param string  $filename The filename to save to
+     * @param string  $format   The format of the file (e.g. gsm, wav)
+     * @param integer $mix      Boolean 1 or 0 on whether to mix
+     *
+     * @return bool
      */
     function monitor($channel, $filename, $format, $mix = null)
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Monitor\r\n");
             fputs($this->_socket, "Channel: $channel\r\n");
             fputs($this->_socket, "File: $filename\r\n");
@@ -323,7 +346,7 @@ class AsteriskManager
             
             $response = stream_get_contents($this->_socket);
 
-            if(strpos($response, "Success") === FALSE) {
+            if (strpos($response, "Success") === false) {
                 $this->error = 'Failed to monitor channel';
                 return false;
             } else {
@@ -336,12 +359,14 @@ class AsteriskManager
 
     /**
      * Get the status information for a channel
-     * @param string $channel The channel to query.
+     *
+     * @param string $channel The channel to query
+     * 
      * @return string|string
      */
     function status($channel = null)
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Status\r\n");
             fputs($this->_socket, "Channel: $channel\r\n\r\n");
             $response = stream_get_contents($this->_socket);
@@ -353,11 +378,12 @@ class AsteriskManager
 
     /**
      * Get a list of SIP peers and their status
-     * return string|bool
+     *
+     * @return string|bool
      */
     function sipPeers()
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: Sippeers\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $reponse;
@@ -368,11 +394,12 @@ class AsteriskManager
 
     /**
      * Return a list of IAX peers and their status
+     *
      * @return string|bool
      */
     function iaxPeers() 
     {
-        if($this->_socket) {
+        if ($this->_socket) {
             fputs($this->_socket, "Action: IAXPeers\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $reponse;
