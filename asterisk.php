@@ -9,15 +9,14 @@
  * @package Net_AsteriskManager
  * @author Doug Bromley <doug.bromley@gmail.com>
  * @copyright Doug Bromley 2008
- * @license GPL v3
- * @version 1.0
+ * @license New BSD License
  * @link http://www.straw-dogs.co.uk
  * PHP5 only
  *
+ ***
  * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
  * All rights reserved.
  *
- ***
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
  * - Redistributions of source code must retain the above copyright notice, 
