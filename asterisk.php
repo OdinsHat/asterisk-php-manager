@@ -178,6 +178,26 @@ class AsteriskManager
     }
 
     /**
+     * A simple 'ping' command which the server responds with 'pong'
+     * @return bool
+     */
+    function ping()
+    {
+        if($this->_socket) {
+            fputs("Action: Ping\r\n\r\n");
+            $response = stream_get_contents($this->_socket);
+            if(strpos($reponse, "Pong") === FALSE) {
+                $this->error = 'No pong received from server!';
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Make a call to an extension with a given channel acting as the originator
      * @param string $extension The number to dial
      * @param string $channel The channel where you wish to originate the call
