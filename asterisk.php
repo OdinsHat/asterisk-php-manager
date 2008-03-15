@@ -45,6 +45,8 @@
 
 /**
  * Class for accessing the Asterisk Manager interface {@link }
+ * @category Net
+ * @package Net_AsteriskManager
  */
 class AsteriskManager
 {
@@ -52,7 +54,6 @@ class AsteriskManager
      * The Asterisk server which will recieve the manager commands 
      * @access public
      * @var string
-     * @uses __construct
      */
     public $server;
 
@@ -60,7 +61,6 @@ class AsteriskManager
      * The port to use when connecting to the Asterisk server
      * @access public
      * @var integer
-     * @uses __construct
      */
     public $port = 5038;
 
@@ -68,7 +68,6 @@ class AsteriskManager
      * The username to access the Asterisk manager interface
      * @access public
      * @var string
-     * @uses __construct, login
      */
     public $username;
 
@@ -76,7 +75,6 @@ class AsteriskManager
      * The password used to access the Asterisk manager interface
      * @access public
      * @var string
-     * @uses __construct, login
      */
     public $password;
     
@@ -84,10 +82,21 @@ class AsteriskManager
      * The opened socket to the Asterisk server
      * @access private 
      * @var object
-     * @uses __construct, login
      */
     private $_socket;
 
+    /**
+     * Class constructor
+     * @param string $server The server hostname or IP address
+     * @param string $username Username credential for the manager interface
+     * @param string $password The password for the manager interface
+     * @param integer $port The port the interface is listening on
+     * @uses AsteriskManager::$server
+     * @uses AsteriskManager::$port
+     * @uses AsteriskManager::$username
+     * @uses AsteriskManager::$password
+     * @uses AsteriskManager::$_socket
+     */
     function __construct($server, $username, $password, $port = 5038)
     {
         $this->server = $server;
@@ -112,7 +121,7 @@ class AsteriskManager
     }
 
     /**
-     * Login into Asterisk Manager interface to perform commands
+     * Login into Asterisk Manager interface
      * @return bool
      */
     function login()
@@ -160,19 +169,15 @@ class AsteriskManager
     /**
      * Send a command to the Asterisk CLI interface
      * @param string $command
-     * @param bool $output Do you want the response to be echoed. If not it'll be returned
+     * @return string|bool
      */
-    function command($command, $output = false)
+    function command($command)
     {
         if($this->_socket) {
             fputs($this->_socket, "Action: Command\r\n");
             fputs($this->_socket, "Command: $command\r\n\r\n");
             
-            if($output) {
-                echo stream_get_contents($this->_socket);
-            } else {
-                return fgets($this->_socket);
-            }
+            return fgets($this->_socket);
         }
         return false;
     }
