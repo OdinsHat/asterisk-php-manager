@@ -88,7 +88,7 @@ class AsteriskInterface
      * @var object
      * @uses __construct, login
      */
-    private $socket;
+    private $_socket;
 
     function __construct($server, $username, $password, $port = 5038)
     {
@@ -97,12 +97,12 @@ class AsteriskInterface
         $this->password = $password;
         $this->port = $port;
 
-        if($this->socket) {
+        if($this->_socket) {
             $this->close();
         }
 
-        if($this->socket = fsockopen($this->server, $this->port)) {
-            stream_set_timeout($this->socket, 3);
+        if($this->_socket = fsockopen($this->server, $this->port)) {
+            stream_set_timeout($this->_socket, 3);
             if(!self::login()) {
                 $this->error = 'Authentication failure';
                 $this->close();
@@ -115,10 +115,10 @@ class AsteriskInterface
 
     function login()
     {
-        fputs($this->socket, "Action: login\r\n");
-        fputs($this->socket, "Username: {$this->username}\r\n");
-        fputs($this->socket, "Secret: {$this->password}\r\n\r\n");
-        $response = stream_get_contents($this->socket);
+        fputs($this->_socket, "Action: login\r\n");
+        fputs($this->_socket, "Username: {$this->username}\r\n");
+        fputs($this->_socket, "Secret: {$this->password}\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
         if(strpos($response, "Message: Authentication accepted") != FALSE) {
             return true;
         } else {
@@ -133,9 +133,9 @@ class AsteriskInterface
      */
     function logout()
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: Logoff\r\n\r\n");
-            fclose($this->socket);
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Logoff\r\n\r\n");
+            fclose($this->_socket);
             return true;
         }
         return false;
@@ -148,8 +148,8 @@ class AsteriskInterface
      */
     function close()
     {
-        if($this->socket) {
-            return fclose($this->socket);
+        if($this->_socket) {
+            return fclose($this->_socket);
         }
 
         return false;
@@ -162,14 +162,14 @@ class AsteriskInterface
      */
     function command($command, $output = false)
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: Command\r\n");
-            fputs($this->socket, "Command: $command\r\n\r\n");
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Command\r\n");
+            fputs($this->_socket, "Command: $command\r\n\r\n");
             
             if($output) {
-                echo stream_get_contents($this->socket);
+                echo stream_get_contents($this->_socket);
             } else {
-                return fgets($this->socket);
+                return fgets($this->_socket);
             }
         }
         return false;
@@ -184,7 +184,7 @@ class AsteriskInterface
      */
     function originateCall($extension, $channel, $context, $priority = 1)
     {
-        if($this->socket) {
+        if($this->_socket) {
             
         }
     }
@@ -197,14 +197,14 @@ class AsteriskInterface
      */
     function queueAdd($queue, $handset, $penalty)
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: QueueAdd\r\n");
-            fputs($this->socket, "Queue: $queue\r\n");
-            fputs($this->socket, "Interface: $handset\r\n");
+        if($this->_socket) {
+            fputs($this->_socket, "Action: QueueAdd\r\n");
+            fputs($this->_socket, "Queue: $queue\r\n");
+            fputs($this->_socket, "Interface: $handset\r\n");
             if($penalty) {
-                fputs($this->socket, "Penalty: $penalty\r\n\r\n");
+                fputs($this->_socket, "Penalty: $penalty\r\n\r\n");
             } else {
-                fputs($this->socket, "\r\n");
+                fputs($this->_socket, "\r\n");
             }
             return true;
         } else {
@@ -220,10 +220,10 @@ class AsteriskInterface
      */
     function queueRemove($queue, $handset) 
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: QueueRemove\r\n");
-            fputs($this->socket, "Queue: $queue\r\n");
-            fputs($this->socket, "Interface: $handset\r\n\r\n");
+        if($this->_socket) {
+            fputs($this->_socket, "Action: QueueRemove\r\n");
+            fputs($this->_socket, "Queue: $queue\r\n");
+            fputs($this->_socket, "Interface: $handset\r\n\r\n");
             return true;
         } else {
             return false;
@@ -239,14 +239,14 @@ class AsteriskInterface
      */
     function monitor($channel, $filename, $format, $mix = null)
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: Monitor\r\n");
-            fputs($this->socket, "Channel: $channel\r\n");
-            fputs($this->socket, "File: $filename\r\n");
-            fputs($this->socket, "Format: $format\r\n");
-            fputs($this->socket, "Mix: $mix\r\n\r\n");
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Monitor\r\n");
+            fputs($this->_socket, "Channel: $channel\r\n");
+            fputs($this->_socket, "File: $filename\r\n");
+            fputs($this->_socket, "Format: $format\r\n");
+            fputs($this->_socket, "Mix: $mix\r\n\r\n");
             
-            $response = stream_get_contents($this->socket);
+            $response = stream_get_contents($this->_socket);
 
             if(strpos($response, "Success") === FALSE) {
                 $this->error = 'Failed to monitor channel';
@@ -266,10 +266,10 @@ class AsteriskInterface
      */
     function status($channel = null)
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: Status\r\n");
-            fputs($this->socket, "Channel: $channel\r\n\r\n");
-            $response = stream_get_contents($this->socket);
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Status\r\n");
+            fputs($this->_socket, "Channel: $channel\r\n\r\n");
+            $response = stream_get_contents($this->_socket);
             return $response;
         } else {
             return false;
@@ -282,9 +282,9 @@ class AsteriskInterface
      */
     function sipPeers()
     {
-        if($this->socket) {
-            fputs($this->socket, "Action: Sippeers");
-            $response = stream_get_contents($this->socket);
+        if($this->_socket) {
+            fputs($this->_socket, "Action: Sippeers");
+            $response = stream_get_contents($this->_socket);
             return $reponse;
         } else {
             return false;
