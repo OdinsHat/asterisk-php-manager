@@ -135,9 +135,7 @@ class AsteriskManager
      */
     function login()
     {
-        fputs($this->_socket, "Action: login\r\n");
-        fputs($this->_socket, "Username: {$this->username}\r\n");
-        fputs($this->_socket, "Secret: {$this->password}\r\n\r\n");
+        fputs($this->_socket, "Action: login\r\nUsername: {$this->username}\r\nSecret: {$this->password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
@@ -185,8 +183,7 @@ class AsteriskManager
     function command($command)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Command\r\n");
-            fputs($this->_socket, "Command: $command\r\n\r\n");
+            fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
             
             return fgets($this->_socket);
         }
@@ -240,23 +237,19 @@ class AsteriskManager
                            $action_id = null)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Originate\r\n");
-            fputs($this->_socket, "Channel: $channel\r\n");
-            fputs($this->_socket, "Context: $context\r\n");
-            fputs($this->_socket, "Exten: $extension\r\n");
-            fputs($this->_socket, "Priority: $priority\r\n");
-            fputs($this->_socket, "Callerid: $cid\r\n");
-            fputs($this->_socket, "Timeout: $timeout\r\n");
+            $command = $this->_socket, "Action: Originate\r\nChannel: $channel\r\n
+                Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n
+                Callerid: $cid\r\nTimeout: $timeout\r\n"
 
             if (count($variables > 0)) {
                 $variables = implode('|', $variables);
-                fputs($this->_socket, "Variable: $variables\r\n");
+                $command .= "Variable: $variables\r\n";
             }
 
             if ($action_id) {
-                fputs($this->_socket, "ActionID: $action_id\r\n");
+                $command .= "ActionID: $action_id\r\n";
             }
-            fputs($this->_socket, "\r\n");
+            fputs($this->_socket,$command."\r\n");
             return true;
         } else {
             return false;
@@ -291,13 +284,12 @@ class AsteriskManager
     function queueAdd($queue, $handset, $penalty)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: QueueAdd\r\n");
-            fputs($this->_socket, "Queue: $queue\r\n");
-            fputs($this->_socket, "Interface: $handset\r\n");
+            $command = "Action: QueueAdd\r\nQueue: $queue\r\nInterface: $handset\r\n";
+
             if ($penalty) {
-                fputs($this->_socket, "Penalty: $penalty\r\n\r\n");
+                fputs($this->_socket, $command."Penalty: $penalty\r\n\r\n");
             } else {
-                fputs($this->_socket, "\r\n");
+                fputs($this->_socket, $command."\r\n");
             }
             return true;
         } else {
@@ -316,9 +308,7 @@ class AsteriskManager
     function queueRemove($queue, $handset) 
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: QueueRemove\r\n");
-            fputs($this->_socket, "Queue: $queue\r\n");
-            fputs($this->_socket, "Interface: $handset\r\n\r\n");
+            fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\nInterface: $handset\r\n\r\n");
             return true;
         } else {
             return false;
@@ -338,11 +328,7 @@ class AsteriskManager
     function monitor($channel, $filename, $format, $mix = null)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Monitor\r\n");
-            fputs($this->_socket, "Channel: $channel\r\n");
-            fputs($this->_socket, "File: $filename\r\n");
-            fputs($this->_socket, "Format: $format\r\n");
-            fputs($this->_socket, "Mix: $mix\r\n\r\n");
+            fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\nFile: $filename\r\nFormat: $format\r\nMix: $mix\r\n\r\n");
             
             $response = stream_get_contents($this->_socket);
 
@@ -367,8 +353,7 @@ class AsteriskManager
     function status($channel = null)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Status\r\n");
-            fputs($this->_socket, "Channel: $channel\r\n\r\n");
+            fputs($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             return $response;
         } else {
