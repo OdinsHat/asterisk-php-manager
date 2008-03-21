@@ -1,0 +1,73 @@
+<!-- $Revision$ -->
+<refentry id="package.net.net-asteriskmanager.asteriskmanager.stopmonitor">
+   <refnamediv>
+    <refname><function>AsteriskManager::stopMonitor</function></refname>
+    <refpurpose>Stop monitoring a channel</refpurpose>
+   </refnamediv>
+   <refsynopsisdiv>
+    <funcsynopsis>
+     <funcsynopsisinfo>
+      require_once &apos;/asterisk.php&apos;;
+     </funcsynopsisinfo>
+     <funcprototype>
+      <funcdef>bool      <function>AsteriskManager::stopMonitor</function></funcdef>
+      <paramdef>string <parameter>$channel</parameter></paramdef>
+     </funcprototype>
+    </funcsynopsis>
+    </refsynopsisdiv>
+
+    <refsect1 id="package.net.net-asteriskmanager.asteriskmanager.stopmonitor.desc">
+     &title.desc;
+     &notdocumented;
+    </refsect1>
+   <refsect1 id="package.net.net-asteriskmanager.asteriskmanager.stopmonitor.param">
+    &title.param;
+    <para>
+     <variablelist>
+      <varlistentry>
+       <term>
+        
+                        
+                        &type.string;
+                         <parameter>$channel</parameter>
+       </term>
+       <listitem>
+        <para>
+         The channel you wish to stop monitoring
+        </para>
+       </listitem>
+      </varlistentry>     
+     </variablelist>
+    </para>
+   </refsect1>
+   <refsect1 id="package.net.net-asteriskmanager.asteriskmanager.stopmonitor.throws">
+    &title.throws;
+        <para>
+      <emphasis>throws</emphasis> no exceptions thrown
+    </para>
+       </refsect1>
+   <refsect1 id="package.net.net-asteriskmanager.asteriskmanager.stopmonitor.note">
+    &title.note;
+    &note.notstatic;
+   </refsect1>
+</refentry>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:"../../../../manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->  
+
