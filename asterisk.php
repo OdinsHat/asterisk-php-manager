@@ -344,6 +344,22 @@ class AsteriskManager
     }
 
     /**
+     * Stop monitoring a channel
+     * @param string $channel The channel you wish to stop monitoring
+     *
+     * @return bool
+     */
+    function stopMonitor($channel)
+    {
+        if ($this->socket) {
+            fputs($this->_socket, "Action: StopMonitor\r\nChannel: $channel\r\n\r\n");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Get the status information for a channel
      *
      * @param string $channel The channel to query
