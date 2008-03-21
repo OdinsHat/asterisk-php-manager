@@ -135,7 +135,8 @@ class AsteriskManager
      */
     function login()
     {
-        fputs($this->_socket, "Action: login\r\nUsername: {$this->username}\r\nSecret: {$this->password}\r\n\r\n");
+        fputs($this->_socket, "Action: login\r\nUsername: {$this->username}\r\n
+                               Secret: {$this->password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
@@ -243,13 +244,13 @@ class AsteriskManager
 
             if (count($variables > 0)) {
                 $variables = implode('|', $variables);
-                $command .= "Variable: $variables\r\n";
+                $command  .= "Variable: $variables\r\n";
             }
 
             if ($action_id) {
                 $command .= "ActionID: $action_id\r\n";
             }
-            fputs($this->_socket,$command."\r\n");
+            fputs($this->_socket, $command."\r\n");
             return true;
         } else {
             return false;
@@ -284,7 +285,8 @@ class AsteriskManager
     function queueAdd($queue, $handset, $penalty)
     {
         if ($this->_socket) {
-            $command = "Action: QueueAdd\r\nQueue: $queue\r\nInterface: $handset\r\n";
+            $command = "Action: QueueAdd\r\nQueue: $queue\r\n
+                        Interface: $handset\r\n";
 
             if ($penalty) {
                 fputs($this->_socket, $command."Penalty: $penalty\r\n\r\n");
@@ -308,7 +310,8 @@ class AsteriskManager
     function queueRemove($queue, $handset) 
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\nInterface: $handset\r\n\r\n");
+            fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n
+                                   Interface: $handset\r\n\r\n");
             return true;
         } else {
             return false;
@@ -328,7 +331,9 @@ class AsteriskManager
     function monitor($channel, $filename, $format, $mix = null)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\nFile: $filename\r\nFormat: $format\r\nMix: $mix\r\n\r\n");
+            fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n
+                                   File: $filename\r\nFormat: $format\r\n
+                                   Mix: $mix\r\n\r\n");
             
             $response = stream_get_contents($this->_socket);
 
@@ -345,6 +350,7 @@ class AsteriskManager
 
     /**
      * Stop monitoring a channel
+     * 
      * @param string $channel The channel you wish to stop monitoring
      *
      * @return bool
@@ -352,7 +358,8 @@ class AsteriskManager
     function stopMonitor($channel)
     {
         if ($this->socket) {
-            fputs($this->_socket, "Action: StopMonitor\r\nChannel: $channel\r\n\r\n");
+            fputs($this->_socket, "Action: StopMonitor\r\n
+                                   Channel: $channel\r\n\r\n");
             return true;
         } else {
             return false;
