@@ -55,17 +55,25 @@ $params = array('server' => '127.0.0.1', 'port' => '5038');
 /**
  * Instantiate Asterisk object and connect to server
  */
-$ast = new AsteriskInterface($params);
+$ast = new Net_AsteriskManager($params);
 
 /**
  * Connect to server
  */
-$ast->connect();
+try {
+    $ast->connect();
+} catch (PEAR_Exception $e) {
+    echo $e;
+}
 
 /**
  * Login to manager API
  */
-$ast->login('user', 'pass');
+try {
+    $ast->login('user', 'pass');
+} catch(PEAR_Exception $e) {
+    echo $e;
+}
 
 /**
  * Monitoring
@@ -73,12 +81,11 @@ $ast->login('user', 'pass');
  * If it fails then echo Asterisk error
  */
 $chan = 'SIP/868';
-if (!$ast->monitor($chan, 'test', 'gsm', 1)) {
-    echo $ast->error;
-} else {
-    // Recording for 5 seconds
-    sleep(5);
-    $ast->stopMonitor($chan);
+
+try {
+    $ast->startMonitor($chan, 'test', 'gsm', 1);
+}  catch (PEAR_Exception $e) {
+    echo $e;
 }
 
 /**
@@ -87,15 +94,24 @@ if (!$ast->monitor($chan, 'test', 'gsm', 1)) {
  */
 
 // Print all the queues on the server
-echo $ast->queues();
+try {
+    echo $ast->getQueues();
+} catch(PEAR_Exception $e) {
+    echo $e;
+}
 
 // Add the SIP handset 234 to a the applicants queue
-$ast->queueAdd('applicants', 'SIP/234', 1);
+try {
+    $ast->queueAdd('applicants', 'SIP/234', 1);
+} catch(PEAR_Exception $e) {
+    echo $e;
+}
 
 // Take it out again
-$ast->queueRemove('applicants', 'SIP/234');
-
-
-
+try {
+    $ast->queueRemove('applicants', 'SIP/234');
+} catch (PEAR_Exception $e) {
+    echo $e;
+}
 
 ?>
