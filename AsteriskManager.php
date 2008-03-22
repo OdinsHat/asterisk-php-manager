@@ -82,17 +82,16 @@ class Net_AsteriskManager
     /**
      * Class constructor
      * 
-     * @param string  $server The server hostname or IP address
-     * @param integer $port   The port the interface is listening on
+     * @param array $params An aray of the parameters used to connect to the server
      * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
      * @uses AsteriskManager::$_socket
      */
-    function __construct($server, $port = 5038)
+    function __construct($params)
     {
-        $this->server = $server;
-        $this->port   = $port;
+        $this->server = $params['server'];
+        $this->port   = $params['port'];
     }
 
     /**
