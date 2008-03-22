@@ -88,7 +88,7 @@ class Net_AsteriskManager
      * @uses AsteriskManager::$port
      * @uses AsteriskManager::$_socket
      */
-    function __construct($params)
+    public function __construct($params)
     {
         $this->server = $params['server'];
         $this->port   = $params['port'];
