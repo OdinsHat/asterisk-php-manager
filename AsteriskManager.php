@@ -12,7 +12,7 @@
  * @author    Doug Bromley <doug.bromley@gmail.com>
  * @copyright 2008 Doug Bromley
  * @license   New BSD License
- * @link      http://www.straw-dogs.co.uk
+ * @link      http://www.straw-dogs.co.uk Homepage
  *
  * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
  * All rights reserved.
