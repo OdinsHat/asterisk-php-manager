@@ -116,10 +116,10 @@ class Net_AsteriskManager
      * 
      * @return bool
      */
-    function login($username, $password)
+    public function login($username, $password)
     {
-        fputs($this->_socket, "Action: login\r\nUsername: {$username}\r\n
-                               Secret: {$password}\r\n\r\n");
+        fputs($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
+                               ."Secret: {$password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
@@ -133,7 +133,7 @@ class Net_AsteriskManager
      * 
      * @return bool
      */
-    function logout()
+    public function logout()
     {
         if (!$this->_socket) { return false }
         
@@ -147,7 +147,7 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function close()
+    public function close()
     {
         if (!$this->_socket) { return false }
 
@@ -161,14 +161,12 @@ class Net_AsteriskManager
      *
      * @return string|bool
      */
-    function command($command)
+    public function command($command)
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
-            
-            return fgets($this->_socket);
-        }
-        return false;
+        if ($this->_socket) { return false }
+    
+        fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
+        return fgets($this->_socket);
     }
 
     /**
@@ -176,19 +174,17 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function ping()
+    public function ping()
     {
-        if ($this->_socket) {
-            fputs("Action: Ping\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            if (strpos($reponse, "Pong") ===false) {
-                $this->error = 'No pong received from server!';
-                return false;
-            } else {
-                return true;
-            }
-        } else {
+        if ($this->_socket) { return false }
+        
+        fputs("Action: Ping\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
+        if (strpos($reponse, "Pong") ===false) {
+            $this->error = 'No pong received from server!';
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -207,7 +203,7 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function originateCall($extension, 
+    public function originateCall($extension, 
                            $channel, 
                            $context, 
                            $extension, 
@@ -217,24 +213,21 @@ class Net_AsteriskManager
                            $variables = null, 
                            $action_id = null)
     {
-        if ($this->_socket) {
-            $command = $this->_socket, "Action: Originate\r\nChannel: $channel\r\n
-                Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n
-                Callerid: $cid\r\nTimeout: $timeout\r\n"
+        if ($this->_socket) { return false }
+        $command = $this->_socket, "Action: Originate\r\nChannel: $channel\r\n"
+            ."Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n"
+            ."Callerid: $cid\r\nTimeout: $timeout\r\n"
 
-            if (count($variables > 0)) {
-                $variables = implode('|', $variables);
-                $command  .= "Variable: $variables\r\n";
-            }
-
-            if ($action_id) {
-                $command .= "ActionID: $action_id\r\n";
-            }
-            fputs($this->_socket, $command."\r\n");
-            return true;
-        } else {
-            return false;
+        if (count($variables > 0)) {
+            $variables = implode('|', $variables);
+            $command  .= "Variable: $variables\r\n";
         }
+
+        if ($action_id) {
+            $command .= "ActionID: $action_id\r\n";
+        }
+        fputs($this->_socket, $command."\r\n");
+        return true;
     }
 
     /**
@@ -242,15 +235,12 @@ class Net_AsteriskManager
      *
      * @return string|bool
      */
-    function queues()
+    public function getQueues()
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: Queues\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            return $response;
-        } else {
-            return false;
-        }
+        if ($this->_socket) { return false }
+        fputs($this->_socket, "Action: Queues\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
+        return $response;
     }
 
     /**
@@ -262,21 +252,18 @@ class Net_AsteriskManager
      * 
      * @return bool
      */
-    function queueAdd($queue, $handset, $penalty)
+    public function queueAdd($queue, $handset, $penalty)
     {
-        if ($this->_socket) {
-            $command = "Action: QueueAdd\r\nQueue: $queue\r\n
-                        Interface: $handset\r\n";
+        if ($this->_socket) { return false }
+        $command = "Action: QueueAdd\r\nQueue: $queue\r\n"
+                    ."Interface: $handset\r\n";
 
-            if ($penalty) {
-                fputs($this->_socket, $command."Penalty: $penalty\r\n\r\n");
-            } else {
-                fputs($this->_socket, $command."\r\n");
-            }
-            return true;
+        if ($penalty) {
+            fputs($this->_socket, $command."Penalty: $penalty\r\n\r\n");
         } else {
-            return false;
+            fputs($this->_socket, $command."\r\n");
         }
+        return true;
     }
 
     /**
@@ -287,15 +274,12 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function queueRemove($queue, $handset) 
+    public function queueRemove($queue, $handset) 
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n
-                                   Interface: $handset\r\n\r\n");
-            return true;
-        } else {
-            return false;
-        }
+        if ($this->_socket) { return false }
+        fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n"
+                               ."Interface: $handset\r\n\r\n");
+        return true;
     }
 
     /**
@@ -308,12 +292,12 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function monitor($channel, $filename, $format, $mix = null)
+    public function startMonitor($channel, $filename, $format, $mix = null)
     {
         if ($this->_socket) {
-            fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n
-                                   File: $filename\r\nFormat: $format\r\n
-                                   Mix: $mix\r\n\r\n");
+            fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n"
+                                   ."File: $filename\r\nFormat: $format\r\n"
+                                   ."Mix: $mix\r\n\r\n");
             
             $response = stream_get_contents($this->_socket);
 
@@ -335,15 +319,12 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    function stopMonitor($channel)
+    public function stopMonitor($channel)
     {
-        if ($this->socket) {
-            fputs($this->_socket, "Action: StopMonitor\r\n
-                                   Channel: $channel\r\n\r\n");
-            return true;
-        } else {
-            return false;
-        }
+        if ($this->socket) { return false }
+        fputs($this->_socket, "Action: StopMonitor\r\n"
+                               ."Channel: $channel\r\n\r\n");
+        return true;
     }
 
     /**
@@ -353,15 +334,12 @@ class Net_AsteriskManager
      * 
      * @return string|string
      */
-    function status($channel = null)
+    public function getChannelStatus($channel = null)
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            return $response;
-        } else {
-            return false;
-        }
+        if ($this->_socket) { return false }
+        fputs($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
+        return $response;
     }
 
     /**
@@ -369,15 +347,12 @@ class Net_AsteriskManager
      *
      * @return string|bool
      */
-    function sipPeers()
+    public function getSipPeers()
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: Sippeers\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            return $reponse;
-        } else {
-            return false;
-        }
+        if ($this->_socket) { return false }
+        fputs($this->_socket, "Action: Sippeers\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
+        return $reponse;
     }
 
     /**
@@ -385,15 +360,12 @@ class Net_AsteriskManager
      *
      * @return string|bool
      */
-    function iaxPeers() 
+    public function getIaxPeers() 
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: IAXPeers\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            return $reponse;
-        } else {
-            return false;
-        }
+        if ($this->_socket) { return false }
+        fputs($this->_socket, "Action: IAXPeers\r\n\r\n");
+        $response = stream_get_contents($this->_socket);
+        return $reponse;
     }
 }
 
