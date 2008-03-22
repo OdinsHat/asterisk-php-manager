@@ -44,6 +44,8 @@
  *
  */
 
+require_once 'PEAR/Exception.php';
+
 /**
  * Class for accessing the Asterisk Manager interface 
  * {@link http://www.voip-info.org/wiki/view/Asterisk+manager+API}
