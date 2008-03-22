@@ -81,21 +81,26 @@ class Net_AsteriskManager
      * Class constructor
      * 
      * @param string  $server   The server hostname or IP address
-     * @param string  $username Username credential for the manager interface
-     * @param string  $password The password for the manager interface
      * @param integer $port     The port the interface is listening on
      * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
-     * @uses AsteriskManager::$username
-     * @uses AsteriskManager::$password
      * @uses AsteriskManager::$_socket
      */
     function __construct($server, $port = 5038)
     {
         $this->server   = $server;
         $this->port     = $port;
+    }
 
+    /**
+     * If not already connected then connect to the Asterisk server
+     * otherwise close active connection and reconnect
+     *
+     * @return bool
+     */
+    public function connect()
+    {
         if ($this->_socket) {
             $this->close();
         }
@@ -103,8 +108,8 @@ class Net_AsteriskManager
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
         } else {
-            $this->error = 'Could not establish connection';
-            return false;
+            throw new PEAR_Exception("Could not establish connection to "
+            ."{$this->server} on {$this->port}");
         }
     }
 
@@ -124,7 +129,7 @@ class Net_AsteriskManager
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
         } else {
-            return false;
+            throw new PEAR_Exception('Authentication failed');
         }
     }
 
@@ -138,12 +143,12 @@ class Net_AsteriskManager
         if (!$this->_socket) { return false }
         
         fputs($this->_socket, "Action: Logoff\r\n\r\n");
-        fclose($this->_socket);
+
         return true;
     }
 
     /**
-     * Just kill the connection without logging off
+     * Close the connection
      *
      * @return bool
      */
@@ -155,7 +160,8 @@ class Net_AsteriskManager
     }
 
     /**
-     * Send a command to the Asterisk CLI interface
+     * Send a command to the Asterisk CLI interface. Acceptable commands 
+     * are dependent on the Asterisk installation.
      *
      * @param string $command Command to execute on server
      *
@@ -166,7 +172,13 @@ class Net_AsteriskManager
         if ($this->_socket) { return false }
     
         fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
-        return fgets($this->_socket);
+        $reponse = fgets($this->_socket);
+
+        if(strpos($response, 'No such command') !== false) {
+            throw new PEAR_Exception('No such command');
+        } else {
+            return $reponse;
+        }
     }
 
     /**
@@ -180,7 +192,7 @@ class Net_AsteriskManager
         
         fputs("Action: Ping\r\n\r\n");
         $response = stream_get_contents($this->_socket);
-        if (strpos($reponse, "Pong") ===false) {
+        if (strpos($reponse, "Pong") === false) {
             $this->error = 'No pong received from server!';
             return false;
         } else {
