@@ -85,7 +85,8 @@ class Net_AsteriskManager
      * 
      * @param array $params An array of the parameters used to connect to the server
      * array('server' => '127.0.0.1'
-     *       'port' => '5038'
+     *       'port' => '5038',
+     *       'auto_connect' => true
      *      );
      * 
      * @uses AsteriskManager::$server
@@ -101,6 +102,10 @@ class Net_AsteriskManager
 
         if (isset($params['port'])) {
             $this->port = $params['port'];
+        }
+
+        if (isset($params['auto_connect'])) {
+            $this->connect();
         }
     }
 
