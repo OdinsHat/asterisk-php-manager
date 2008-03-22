@@ -54,7 +54,7 @@
  * @license  New BSD License
  * @link     http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
-class AsteriskManager
+class Net_AsteriskManager
 {
     /**
      * The Asterisk server which will recieve the manager commands 
@@ -70,20 +70,6 @@ class AsteriskManager
      */
     public $port = 5038;
 
-    /**
-     * The username to access the Asterisk manager interface
-     * @access public
-     * @var string
-     */
-    public $username;
-
-    /**
-     * The password used to access the Asterisk manager interface
-     * @access public
-     * @var string
-     */
-    public $password;
-    
     /**
      * The opened socket to the Asterisk server
      * @access private 
@@ -105,11 +91,9 @@ class AsteriskManager
      * @uses AsteriskManager::$password
      * @uses AsteriskManager::$_socket
      */
-    function __construct($server, $username, $password, $port = 5038)
+    function __construct($server, $port = 5038)
     {
         $this->server   = $server;
-        $this->username = $username;
-        $this->password = $password;
         $this->port     = $port;
 
         if ($this->_socket) {
@@ -118,10 +102,6 @@ class AsteriskManager
 
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
-            if (!self::login()) {
-                $this->error = 'Authentication failure';
-                $this->close();
-            }
         } else {
             $this->error = 'Could not establish connection';
             return false;
@@ -129,14 +109,17 @@ class AsteriskManager
     }
 
     /**
-     * Login into Asterisk Manager interface
+     * Login into Asterisk Manager interface given the user credentials
+     *
+     * @param string $username The username to access the interface
+     * @param string $password The password defined in manager interface of server
      * 
      * @return bool
      */
-    function login()
+    function login($username, $password)
     {
-        fputs($this->_socket, "Action: login\r\nUsername: {$this->username}\r\n
-                               Secret: {$this->password}\r\n\r\n");
+        fputs($this->_socket, "Action: login\r\nUsername: {$username}\r\n
+                               Secret: {$password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
@@ -152,12 +135,11 @@ class AsteriskManager
      */
     function logout()
     {
-        if ($this->_socket) {
-            fputs($this->_socket, "Action: Logoff\r\n\r\n");
-            fclose($this->_socket);
-            return true;
-        }
-        return false;
+        if (!$this->_socket) { return false }
+        
+        fputs($this->_socket, "Action: Logoff\r\n\r\n");
+        fclose($this->_socket);
+        return true;
     }
 
     /**
@@ -167,11 +149,9 @@ class AsteriskManager
      */
     function close()
     {
-        if ($this->_socket) {
-            return fclose($this->_socket);
-        }
+        if (!$this->_socket) { return false }
 
-        return false;
+        return fclose($this->_socket);
     }
 
     /**
