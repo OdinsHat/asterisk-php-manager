@@ -24,7 +24,7 @@
 <notes>Initial release for PEAR proposal.</notes>
 <contents>
     <dir name="/">
-        <file name="asterisk.php" role="php" />
+        <file name="AsteriskManager.php" role="php" />
         <dir name="docs/examples/">
             <file name="example.php" role="php" />
         </dir>
