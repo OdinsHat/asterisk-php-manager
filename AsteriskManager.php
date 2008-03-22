@@ -11,9 +11,10 @@
  * @package   Net_AsteriskManager
  * @author    Doug Bromley <doug.bromley@gmail.com>
  * @copyright 2008 Doug Bromley
- * @license   New BSD License
- * @link      http://www.straw-dogs.co.uk Homepage
- *
+ * @license   http://www.debian.org/misc/bsd.license New BSD License
+ */
+
+/**
  * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
  * All rights reserved.
  *
@@ -41,6 +42,9 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * PEAR Exception class is used for exception handling
+ */
 require_once 'PEAR/Exception.php';
 
 /**
@@ -50,7 +54,7 @@ require_once 'PEAR/Exception.php';
  * @category Net
  * @package  Net_AsteriskManager
  * @author   Doug Bromley <doug.bromley@gmail.com>
- * @license  New BSD License
+ * @license   http://www.debian.org/misc/bsd.license New BSD License
  * @link     http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
 class Net_AsteriskManager
