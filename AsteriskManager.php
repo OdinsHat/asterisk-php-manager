@@ -238,7 +238,7 @@ class Net_AsteriskManager
         }
         $command = "Action: Originate\r\nChannel: $channel\r\n"
             ."Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n"
-            ."Callerid: $cid\r\nTimeout: $timeout\r\n"
+            ."Callerid: $cid\r\nTimeout: $timeout\r\n";
 
         if (count($variables > 0)) {
             $variables = implode('|', $variables);
