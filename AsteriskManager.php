@@ -14,7 +14,6 @@
  * @license   New BSD License
  * @link      http://www.straw-dogs.co.uk
  *
- ***
  * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
  * All rights reserved.
  *
@@ -40,8 +39,6 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- ***
- *
  */
 
 require_once 'PEAR/Exception.php';
@@ -82,7 +79,10 @@ class Net_AsteriskManager
     /**
      * Class constructor
      * 
-     * @param array $params An aray of the parameters used to connect to the server
+     * @param array $params An array of the parameters used to connect to the server
+     * array('server' => '127.0.0.1'
+     *       'port' => '5038'
+     *      );
      * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
@@ -90,8 +90,14 @@ class Net_AsteriskManager
      */
     public function __construct($params)
     {
+        if (!isset($params['server'])) {
+            throw new PEAR_Exception('You must provide a server');
+        }
         $this->server = $params['server'];
-        $this->port   = $params['port'];
+
+        if (isset($params['port'])) {
+            $this->port = $params['port'];
+        }
     }
 
     /**
