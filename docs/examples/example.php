@@ -44,14 +44,28 @@
 /**
  * Including the Asterisk Manager library
  */
-require "asterisk.php";
+require "AsteriskManager.php";
 
+
+/**
+ * The parameters for connecting to the server
+ */
+$params = array('server' => '127.0.0.1', 'port' => '5038');
 
 /**
  * Instantiate Asterisk object and connect to server
  */
-$ast = new AsteriskInterface('217.10.145.18', 'admin', 'pass');
+$ast = new AsteriskInterface($params);
 
+/**
+ * Connect to server
+ */
+$ast->connect();
+
+/**
+ * Login to manager API
+ */
+$ast->login('user', 'pass');
 
 /**
  * Monitoring
