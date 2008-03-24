@@ -83,17 +83,20 @@ class Net_AsteriskManager
     /**
      * Class constructor
      * 
-     * @param array $params An array of the parameters used to connect to the server
-     * array('server' => '127.0.0.1'
-     *       'port' => '5038',
-     *       'auto_connect' => true
+     * @param array $params Array of the parameters used to connect to the server
+     * <code>
+     * array(
+     *       'server' => '127.0.0.1'    // The server to connect to
+     *       'port' => '5038',          // Port of manager API
+     *       'auto_connect' => true     // Autoconnect on construction?
      *      );
+     * </code>
      * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
      * @uses AsteriskManager::$_socket
      */
-    public function __construct($params)
+    public function __construct($params = array())
     {
         if (!isset($params['server'])) {
             throw new PEAR_Exception('You must provide a server');
