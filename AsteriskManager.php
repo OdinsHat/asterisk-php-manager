@@ -191,7 +191,7 @@ class Net_AsteriskManager
      */
     public function command($command)
     {
-        if ($this->_socket) { 
+        if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
     
@@ -212,7 +212,7 @@ class Net_AsteriskManager
      */
     public function ping()
     {
-        if ($this->_socket) { 
+        if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
         
@@ -274,7 +274,7 @@ class Net_AsteriskManager
      */
     public function getQueues()
     {
-        if ($this->_socket) { 
+        if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
         fputs($this->_socket, "Action: Queues\r\n\r\n");
@@ -293,7 +293,7 @@ class Net_AsteriskManager
      */
     public function queueAdd($queue, $handset, $penalty)
     {
-        if ($this->_socket) { 
+        if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
         $command = "Action: QueueAdd\r\nQueue: $queue\r\n"
@@ -364,7 +364,7 @@ class Net_AsteriskManager
      */
     public function stopMonitor($channel)
     {
-        if ($this->socket) {
+        if (!$this->socket) {
             throw new PEAR_Exception('No socket detected');
         }
         fputs($this->_socket, "Action: StopMonitor\r\n"
