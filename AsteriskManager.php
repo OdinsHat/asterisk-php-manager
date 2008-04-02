@@ -38,6 +38,7 @@
  * @author    Doug Bromley <doug.bromley@gmail.com>
  * @copyright 2008 Doug Bromley
  * @license   http://www.debian.org/misc/bsd.license New BSD License
+ * @link      http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
 
 /**
