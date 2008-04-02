@@ -231,7 +231,6 @@ class Net_AsteriskManager
      * @param string  $extension The number to dial
      * @param string  $channel   The channel where you wish to originate the call
      * @param string  $context   The context that the call will be dropped into 
-     * @param string  $extension The extension to use on connection
      * @param string  $cid       The caller ID to use
      * @param integer $priority  The priority of this command
      * @param integer $timeout   Timeout in milliseconds before attempt dropped
@@ -243,7 +242,6 @@ class Net_AsteriskManager
     public function originateCall($extension, 
                            $channel, 
                            $context, 
-                           $extension, 
                            $cid, 
                            $priority = 1, 
                            $timeout = 30000, 
@@ -257,7 +255,7 @@ class Net_AsteriskManager
             ."Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n"
             ."Callerid: $cid\r\nTimeout: $timeout\r\n";
 
-        if (count($variables > 0)) {
+        if (count($variables) > 0) {
             $variables = implode('|', $variables);
             $command  .= "Variable: $variables\r\n";
         }
