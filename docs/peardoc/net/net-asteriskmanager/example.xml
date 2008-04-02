@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- $Revision: 1.9 $ -->
+
+<refentry id="packages.categorie.mypackage.example">
+ <refnamediv>
+  <refname>Example</refname>
+  <refpurpose>
+   Examples for the masses
+  </refpurpose>
+ </refnamediv>
+
+ <refsect1>
+  <example>
+   <title>The first killer application</title>
+   <programlisting role="php">
+    <![CDATA[
+<?php
+// My killer application
+?>
+    ]]>
+   </programlisting>
+   <para>
+    Output:
+   </para>
+   <screen>
+    <![CDATA[
+bloblableblabloo
+    ]]>
+   </screen>
+  </example>
+
+  <example>
+   <title>How to earn a lot of money</title>
+   <programlisting role="php">
+    <![CDATA[
+<?php
+// a script to send 10.000 spam mails in 1 min
+?>
+    ]]>
+   </programlisting>
+   <para>
+    Output:
+   </para>
+   <screen>
+    <![CDATA[
+bloblableblabloo
+    ]]>
+   </screen>
+  </example>
+ </refsect1>
+
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:1
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:"../../../../../manual.ced"
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+vim600: syn=xml fen fdm=syntax fdl=2 si
+vim: et tw=78 syn=sgml
+vi: ts=1 sw=1
+-->
