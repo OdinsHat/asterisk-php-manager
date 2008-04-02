@@ -248,7 +248,7 @@ class Net_AsteriskManager
                            $variables = null, 
                            $action_id = null)
     {
-        if ($this->_socket) { 
+        if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
         $command = "Action: Originate\r\nChannel: $channel\r\n"
