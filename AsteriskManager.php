@@ -196,7 +196,7 @@ class Net_AsteriskManager
         }
     
         fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
-        $response = fgets($this->_socket);
+        $response = stream_get_contents($this->_socket);
 
         if (strpos($response, 'No such command') !== false) {
             throw new PEAR_Exception('No such command');
