@@ -153,6 +153,8 @@ class Net_AsteriskManager
 
     /**
      * Logout of the current manager session attached to $this::socket
+     * This is strongly recommended as otherwise Asterisk will drop your
+     * connection after timeout.
      * 
      * @return bool
      */
