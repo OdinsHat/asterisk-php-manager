@@ -1,0 +1,12 @@
+The Asterisk Manager PHP API enables a developer to control their Asterisk
+PBX system from a PHP application.  Allowing for call origination,
+monitoring, queue management, etc.
+
+Documentation is provided in the tarball as well as on the PEAR site.  For
+any help or bug reports please visit the sites Google Project page at:
+http://code.google.com/p/asterisk-php-api/
+
+The library is released under the BSD license which can be found in the
+file named LICENSE in the same directory as this readme.
+
+Copyright Doug Bromley 2008
