@@ -28,8 +28,15 @@
         <dir name="docs/examples/">
             <file name="example.php" role="php" />
         </dir>
+        <dir name="docs/">
+            <file name="README" role="doc" />
+            <file name="LICENSE" role="doc" />
+        </dir>
         <dir name="docs/peardoc/net/net-asteriskmanager">
-            <file name="intro.xml" role="" />
+            <file name="intro.xml" role="doc" />
+            <file name="queues.xml" role="doc" />
+            <file name="originatecall.xml" role="doc" />
+            <file name="monitor.xml" role="doc" />
         </dir>
     </dir>
 </contents>
