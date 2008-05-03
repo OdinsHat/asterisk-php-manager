@@ -5,18 +5,9 @@
  <refnamediv>
   <refname>Introduction</refname>
   <refpurpose>
-   How to use My_Package
+   How to use the Asterisk Manager library. 
   </refpurpose>
  </refnamediv>
-
- <refsect1 id="packages.net.net-asteriskmanager.intro.contrib">
-  <title>Contributors</title>
-  <para>
-   <itemizedlist>
-    <listitem><simpara>Doug Bromley</simpara></listitem>
-   </itemizedlist>
-  </para>
- </refsect1>
 
  <refsect1 id="packages.net.net-asteriskmanager.intro.desc">
   <title>Description</title>

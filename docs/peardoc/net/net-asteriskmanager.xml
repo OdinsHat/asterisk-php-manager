@@ -22,7 +22,7 @@ url="http://www.voip-info.org/wiki/view/Asterisk+manager+API">http://www.voip-in
   </itemizedlist>
    </para>
 </refsect1>
-</refentry>
+</refentry>
 &package.net.net-asteriskmanager.asteriskmanager.--construct;
 &package.net.net-asteriskmanager.asteriskmanager.close;
 &package.net.net-asteriskmanager.asteriskmanager.command;

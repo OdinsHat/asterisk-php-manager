@@ -18,15 +18,13 @@
 <div class="index-letter-menu">
 	<a class="index-letter" href="elementindex.html#a">a</a>
 	<a class="index-letter" href="elementindex.html#c">c</a>
-	<a class="index-letter" href="elementindex.html#i">i</a>
+	<a class="index-letter" href="elementindex.html#g">g</a>
 	<a class="index-letter" href="elementindex.html#l">l</a>
-	<a class="index-letter" href="elementindex.html#m">m</a>
+	<a class="index-letter" href="elementindex.html#n">n</a>
 	<a class="index-letter" href="elementindex.html#o">o</a>
 	<a class="index-letter" href="elementindex.html#p">p</a>
-	<a class="index-letter" href="elementindex.html#q">q</a>
+	<a class="index-letter" href="elementindex.html#"></a>
 	<a class="index-letter" href="elementindex.html#s">s</a>
-	<a class="index-letter" href="elementindex.html#u">u</a>
-	<a class="index-letter" href="elementindex.html#_">_</a>
 </div>
 
 	<a name="a"></a>
@@ -37,17 +35,10 @@
 	</div>
 	<dl>
 			<dt class="field">
-						<span class="include-title">asterisk.php</span>
+						<span class="include-title">AsteriskManager.php</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/_asterisk.php.html">asterisk.php</a> in asterisk.php</div>
-					</dd>
-			<dt class="field">
-						AsteriskManager
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html">AsteriskManager</a> in asterisk.php</div>
-							<div class="index-item-description">Class for accessing the Asterisk Manager interface  <a href="http://www.voip-info.org/wiki/view/Asterisk+manager+API">http://www.voip-info.org/wiki/view/Asterisk+manager+API</a></div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/_AsteriskManager.php.html">AsteriskManager.php</a> in AsteriskManager.php</div>
 					</dd>
 		</dl>
 	<a name="c"></a>
@@ -61,30 +52,58 @@
 						<span class="method-title">close</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodclose">AsteriskManager::close()</a> in asterisk.php</div>
-							<div class="index-item-description">Just kill the connection without logging off</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodclose">Net_AsteriskManager::close()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Close the connection</div>
 					</dd>
 			<dt class="field">
 						<span class="method-title">command</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodcommand">AsteriskManager::command()</a> in asterisk.php</div>
-							<div class="index-item-description">Send a command to the Asterisk CLI interface</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodcommand">Net_AsteriskManager::command()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Send a command to the Asterisk CLI interface. Acceptable commands  are dependent on the Asterisk installation.</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">connect</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodconnect">Net_AsteriskManager::connect()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">If not already connected then connect to the Asterisk server  otherwise close active connection and reconnect</div>
 					</dd>
 		</dl>
-	<a name="i"></a>
+	<a name="g"></a>
 	<div class="index-letter-section">
-		<div style="float: left" class="index-letter-title">i</div>
+		<div style="float: left" class="index-letter-title">g</div>
 		<div style="float: right"><a href="#top">top</a></div>
 		<div style="clear: both"></div>
 	</div>
 	<dl>
 			<dt class="field">
-						<span class="method-title">iaxPeers</span>
+						<span class="method-title">getChannelStatus</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodiaxPeers">AsteriskManager::iaxPeers()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodgetChannelStatus">Net_AsteriskManager::getChannelStatus()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Get the status information for a channel</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">getIaxPeers</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodgetIaxPeers">Net_AsteriskManager::getIaxPeers()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Return a list of IAX peers and their status</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">getQueues</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodgetQueues">Net_AsteriskManager::getQueues()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Returns a list of queues and their status</div>
+					</dd>
+			<dt class="field">
+						<span class="method-title">getSipPeers</span>
+					</dt>
+		<dd class="index-item-body">
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodgetSipPeers">Net_AsteriskManager::getSipPeers()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Get a list of SIP peers and their status</div>
 					</dd>
 		</dl>
 	<a name="l"></a>
@@ -98,30 +117,30 @@
 						<span class="method-title">login</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodlogin">AsteriskManager::login()</a> in asterisk.php</div>
-							<div class="index-item-description">Login into Asterisk Manager interface</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodlogin">Net_AsteriskManager::login()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Login into Asterisk Manager interface given the user credentials</div>
 					</dd>
 			<dt class="field">
 						<span class="method-title">logout</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodlogout">AsteriskManager::logout()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodlogout">Net_AsteriskManager::logout()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Logout of the current manager session attached to $this::socket</div>
 					</dd>
 		</dl>
-	<a name="m"></a>
+	<a name="n"></a>
 	<div class="index-letter-section">
-		<div style="float: left" class="index-letter-title">m</div>
+		<div style="float: left" class="index-letter-title">n</div>
 		<div style="float: right"><a href="#top">top</a></div>
 		<div style="clear: both"></div>
 	</div>
 	<dl>
 			<dt class="field">
-						<span class="method-title">monitor</span>
+						Net_AsteriskManager
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodmonitor">AsteriskManager::monitor()</a> in asterisk.php</div>
-							<div class="index-item-description">Monitor(record) a channel to given file in given format</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html">Net_AsteriskManager</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Class for accessing the Asterisk Manager interface  <a href="http://www.voip-info.org/wiki/view/Asterisk+manager+API">http://www.voip-info.org/wiki/view/Asterisk+manager+API</a></div>
 					</dd>
 		</dl>
 	<a name="o"></a>
@@ -135,7 +154,7 @@
 						<span class="method-title">originateCall</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodoriginateCall">AsteriskManager::originateCall()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodoriginateCall">Net_AsteriskManager::originateCall()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Make a call to an extension with a given channel acting as the originator</div>
 					</dd>
 		</dl>
@@ -147,24 +166,17 @@
 	</div>
 	<dl>
 			<dt class="field">
-						<span class="var-title">$password</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#var$password">AsteriskManager::$password</a> in asterisk.php</div>
-							<div class="index-item-description">The password used to access the Asterisk manager interface</div>
-					</dd>
-			<dt class="field">
 						<span class="var-title">$port</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#var$port">AsteriskManager::$port</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#var$port">Net_AsteriskManager::$port</a> in AsteriskManager.php</div>
 							<div class="index-item-description">The port to use when connecting to the Asterisk server</div>
 					</dd>
 			<dt class="field">
 						<span class="method-title">ping</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodping">AsteriskManager::ping()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodping">Net_AsteriskManager::ping()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">A simple 'ping' command which the server responds with 'pong'</div>
 					</dd>
 		</dl>
@@ -179,22 +191,15 @@
 						<span class="method-title">queueAdd</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodqueueAdd">AsteriskManager::queueAdd()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodqueueAdd">Net_AsteriskManager::queueAdd()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Add a handset to a queue on the server</div>
 					</dd>
 			<dt class="field">
 						<span class="method-title">queueRemove</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodqueueRemove">AsteriskManager::queueRemove()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodqueueRemove">Net_AsteriskManager::queueRemove()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Remove a handset from the given queue</div>
-					</dd>
-			<dt class="field">
-						<span class="method-title">queues</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodqueues">AsteriskManager::queues()</a> in asterisk.php</div>
-							<div class="index-item-description">Returns a list of queues and their status</div>
 					</dd>
 		</dl>
 	<a name="s"></a>
@@ -208,44 +213,22 @@
 						<span class="var-title">$server</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#var$server">AsteriskManager::$server</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#var$server">Net_AsteriskManager::$server</a> in AsteriskManager.php</div>
 							<div class="index-item-description">The Asterisk server which will recieve the manager commands</div>
 					</dd>
 			<dt class="field">
-						<span class="method-title">sipPeers</span>
+						<span class="method-title">startMonitor</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodsipPeers">AsteriskManager::sipPeers()</a> in asterisk.php</div>
-							<div class="index-item-description">Get a list of SIP peers and their status</div>
-					</dd>
-			<dt class="field">
-						<span class="method-title">status</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodstatus">AsteriskManager::status()</a> in asterisk.php</div>
-							<div class="index-item-description">Get the status information for a channel</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodstartMonitor">Net_AsteriskManager::startMonitor()</a> in AsteriskManager.php</div>
+							<div class="index-item-description">Monitor(record) a channel to given file in given format</div>
 					</dd>
 			<dt class="field">
 						<span class="method-title">stopMonitor</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#methodstopMonitor">AsteriskManager::stopMonitor()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#methodstopMonitor">Net_AsteriskManager::stopMonitor()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Stop monitoring a channel</div>
-					</dd>
-		</dl>
-	<a name="u"></a>
-	<div class="index-letter-section">
-		<div style="float: left" class="index-letter-title">u</div>
-		<div style="float: right"><a href="#top">top</a></div>
-		<div style="clear: both"></div>
-	</div>
-	<dl>
-			<dt class="field">
-						<span class="var-title">$username</span>
-					</dt>
-		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#var$username">AsteriskManager::$username</a> in asterisk.php</div>
-							<div class="index-item-description">The username to access the Asterisk manager interface</div>
 					</dd>
 		</dl>
 	<a name="_"></a>
@@ -259,7 +242,7 @@
 						<span class="method-title">__construct</span>
 					</dt>
 		<dd class="index-item-body">
-			<div class="index-item-details"><a href="Net_AsteriskManager/AsteriskManager.html#method__construct">AsteriskManager::__construct()</a> in asterisk.php</div>
+			<div class="index-item-details"><a href="Net_AsteriskManager/Net_AsteriskManager.html#method__construct">Net_AsteriskManager::__construct()</a> in AsteriskManager.php</div>
 							<div class="index-item-description">Class constructor</div>
 					</dd>
 		</dl>
@@ -267,14 +250,12 @@
 <div class="index-letter-menu">
 	<a class="index-letter" href="elementindex.html#a">a</a>
 	<a class="index-letter" href="elementindex.html#c">c</a>
-	<a class="index-letter" href="elementindex.html#i">i</a>
+	<a class="index-letter" href="elementindex.html#g">g</a>
 	<a class="index-letter" href="elementindex.html#l">l</a>
-	<a class="index-letter" href="elementindex.html#m">m</a>
+	<a class="index-letter" href="elementindex.html#n">n</a>
 	<a class="index-letter" href="elementindex.html#o">o</a>
 	<a class="index-letter" href="elementindex.html#p">p</a>
-	<a class="index-letter" href="elementindex.html#q">q</a>
+	<a class="index-letter" href="elementindex.html#"></a>
 	<a class="index-letter" href="elementindex.html#s">s</a>
-	<a class="index-letter" href="elementindex.html#u">u</a>
-	<a class="index-letter" href="elementindex.html#_">_</a>
 </div>	</body>
 </html>
