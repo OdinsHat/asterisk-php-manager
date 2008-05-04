@@ -42,6 +42,11 @@
  */
 
 /**
+ * Including the libraries exception class which extends PEAR_Exception
+ */
+include 'AsteriskManagerException.php';
+
+/**
  * Class for accessing the Asterisk Manager interface 
  * {@link http://www.voip-info.org/wiki/view/Asterisk+manager+API}
  * 
@@ -134,6 +139,7 @@ class Net_AsteriskManager
 
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
+            return true;
         } else {
             throw new PEAR_Exception("Could not establish connection to "
             ."{$this->server} on {$this->port}");
