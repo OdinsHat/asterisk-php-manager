@@ -55,9 +55,9 @@ require_once 'PEAR/Exception.php';
  * @license     http://www.debian.org/misc/bsd.license New BSD License
  * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
-class Net_Asterisk_ManagerException
+class Net_AsteriskManagerException extends PEAR_Exception
 {
-
-
-
+    const NOSOCKET      = 'No socket defined';
+    const AUTHFAIL      = 'Authorisation failed';
+    const CONNECTFAILED = 'Connection failed';
 }
