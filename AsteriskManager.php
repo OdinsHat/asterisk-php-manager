@@ -42,11 +42,6 @@
  */
 
 /**
- * PEAR Exception class is used for exception handling
- */
-require_once 'PEAR/Exception.php';
-
-/**
  * Class for accessing the Asterisk Manager interface 
  * {@link http://www.voip-info.org/wiki/view/Asterisk+manager+API}
  * 
@@ -121,7 +116,7 @@ class Net_AsteriskManager
     private function __checkSocket()
     {
         if (!$this->_socket) {
-            throw new PEAR_Exception('No socket connection to server'); 
+            throw new Net_AsteriskManagerException(Net_AsteriskManagerException::NOSOCKET);
         }
     }
 
