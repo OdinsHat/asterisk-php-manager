@@ -118,7 +118,7 @@ class Net_AsteriskManager
      * server.
      *
      */
-    private function __checkSocket()
+    private function _checkSocket()
     {
         if (!$this->_socket) {
             throw new Net_AsteriskManagerException(Net_AsteriskManagerException::NOSOCKET);
@@ -133,16 +133,15 @@ class Net_AsteriskManager
      */
     public function connect()
     {
-        if ($this->_socket) {
-            $this->close();
-        }
+        self::_checkSocket();
 
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
             return true;
         } else {
-            throw new PEAR_Exception("Could not establish connection to "
-            ."{$this->server} on {$this->port}");
+            throw new Net_AsteriskManagerException (
+                Net_AsteriskManagerException::CONNECTFAILED
+            );
         }
     }
 
