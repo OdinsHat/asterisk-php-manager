@@ -135,8 +135,10 @@ class Net_AsteriskManager
      */
     public function connect()
     {
-        self::_checkSocket();
-
+        if ($this->_socket) {
+            $this->close();
+        }
+        
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
             return true;
@@ -211,7 +213,9 @@ class Net_AsteriskManager
         $response = stream_get_contents($this->_socket);
 
         if (strpos($response, 'No such command') !== false) {
-            throw new PEAR_Exception('No such command');
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::NOCOMMAND
+            );
         }
         return $response;
     }
@@ -228,7 +232,9 @@ class Net_AsteriskManager
         fwrite("Action: Ping\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Pong") === false) {
-            throw new PEAR_Exception('No response to ping');
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::NOPONG
+            );
         }
         return true;
     }
@@ -351,8 +357,9 @@ class Net_AsteriskManager
         $response = stream_get_contents($this->_socket);
 
         if (strpos($response, "Success") === false) {
-            $this->error = 'Failed to monitor channel';
-            return false;
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::MONITORFAIL
+            );
         } else {
             return true;
         }
