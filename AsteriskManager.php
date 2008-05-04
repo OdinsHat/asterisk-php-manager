@@ -156,7 +156,7 @@ class Net_AsteriskManager
      */
     public function login($username, $password)
     {
-        fputs($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
+        fwrite($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
                                ."Secret: {$password}\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
@@ -177,7 +177,7 @@ class Net_AsteriskManager
             throw new PEAR_Exception('No socket detected');
         }
         
-        fputs($this->_socket, "Action: Logoff\r\n\r\n");
+        fwrite($this->_socket, "Action: Logoff\r\n\r\n");
 
         return true;
     }
@@ -210,7 +210,7 @@ class Net_AsteriskManager
             throw new PEAR_Exception('No socket detected');
         }
     
-        fputs($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
+        fwrite($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
         $response = stream_get_contents($this->_socket);
 
         if (strpos($response, 'No such command') !== false) {
@@ -231,7 +231,7 @@ class Net_AsteriskManager
             throw new PEAR_Exception('No socket detected');
         }
         
-        fputs("Action: Ping\r\n\r\n");
+        fwrite("Action: Ping\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Pong") === false) {
             throw new PEAR_Exception('No response to ping');
@@ -278,7 +278,7 @@ class Net_AsteriskManager
         if ($action_id) {
             $command .= "ActionID: $action_id\r\n";
         }
-        fputs($this->_socket, $command."\r\n");
+        fwrite($this->_socket, $command."\r\n");
         return true;
     }
 
@@ -292,7 +292,7 @@ class Net_AsteriskManager
         if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: Queues\r\n\r\n");
+        fwrite($this->_socket, "Action: Queues\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         return $response;
     }
@@ -315,9 +315,9 @@ class Net_AsteriskManager
                     ."Interface: $handset\r\n";
 
         if ($penalty) {
-            fputs($this->_socket, $command."Penalty: $penalty\r\n\r\n");
+            fwrite($this->_socket, $command."Penalty: $penalty\r\n\r\n");
         } else {
-            fputs($this->_socket, $command."\r\n");
+            fwrite($this->_socket, $command."\r\n");
         }
         return true;
     }
@@ -335,7 +335,7 @@ class Net_AsteriskManager
         if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n"
+        fwrite($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n"
                                ."Interface: $handset\r\n\r\n");
         return true;
     }
@@ -356,7 +356,7 @@ class Net_AsteriskManager
             throw new PEAR_Exception('No socket detected');
         }
         
-        fputs($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n"
+        fwrite($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n"
                                ."File: $filename\r\nFormat: $format\r\n"
                                ."Mix: $mix\r\n\r\n");
         
@@ -382,7 +382,7 @@ class Net_AsteriskManager
         if (!$this->socket) {
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: StopMonitor\r\n"
+        fwrite($this->_socket, "Action: StopMonitor\r\n"
                                ."Channel: $channel\r\n\r\n");
         return true;
     }
@@ -399,7 +399,7 @@ class Net_AsteriskManager
         if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
+        fwrite($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         return $response;
     }
@@ -414,7 +414,7 @@ class Net_AsteriskManager
         if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: Sippeers\r\n\r\n");
+        fwrite($this->_socket, "Action: Sippeers\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         return $response;
     }
@@ -429,7 +429,7 @@ class Net_AsteriskManager
         if (!$this->_socket) { 
             throw new PEAR_Exception('No socket detected');
         }
-        fputs($this->_socket, "Action: IAXPeers\r\n\r\n");
+        fwrite($this->_socket, "Action: IAXPeers\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         return $response;
     }
