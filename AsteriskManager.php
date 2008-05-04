@@ -121,7 +121,9 @@ class Net_AsteriskManager
     private function _checkSocket()
     {
         if (!$this->_socket) {
-            throw new Net_AsteriskManagerException(Net_AsteriskManagerException::NOSOCKET);
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::NOSOCKET
+            );
         }
     }
 
@@ -138,11 +140,11 @@ class Net_AsteriskManager
         if ($this->_socket = fsockopen($this->server, $this->port)) {
             stream_set_timeout($this->_socket, 3);
             return true;
-        } else {
-            throw new Net_AsteriskManagerException (
-                Net_AsteriskManagerException::CONNECTFAILED
-            );
         }
+        
+        throw new Net_AsteriskManagerException (
+            Net_AsteriskManagerException::CONNECTFAILED
+        );
     }
 
     /**
@@ -160,9 +162,8 @@ class Net_AsteriskManager
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
-        } else {
-            throw new PEAR_Exception('Authentication failed');
         }
+        throw new PEAR_Exception('Authentication failed');
     }
 
     /**
@@ -214,9 +215,8 @@ class Net_AsteriskManager
 
         if (strpos($response, 'No such command') !== false) {
             throw new PEAR_Exception('No such command');
-        } else {
-            return $response;
         }
+        return $response;
     }
 
     /**
@@ -234,9 +234,8 @@ class Net_AsteriskManager
         $response = stream_get_contents($this->_socket);
         if (strpos($response, "Pong") === false) {
             throw new PEAR_Exception('No response to ping');
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
