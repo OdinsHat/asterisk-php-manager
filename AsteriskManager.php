@@ -107,7 +107,21 @@ class Net_AsteriskManager
         }
 
         if (isset($params['auto_connect'])) {
-            $this->connect();
+            if ($params['auto_connect']) {
+                $this->connect();
+            }
+        }
+    }
+
+    /**
+     * Private method for checking there is a socket open to the Asterisk
+     * server.
+     *
+     */
+    private function __checkSocket()
+    {
+        if (!$this->_socket) {
+            throw new PEAR_Exception('No socket connection to server'); 
         }
     }
 
@@ -153,8 +167,6 @@ class Net_AsteriskManager
 
     /**
      * Logout of the current manager session attached to $this::socket
-     * This is strongly recommended as otherwise Asterisk will drop your
-     * connection after timeout.
      * 
      * @return bool
      */
