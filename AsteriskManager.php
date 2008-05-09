@@ -98,7 +98,9 @@ class Net_AsteriskManager
     public function __construct($params = array())
     {
         if (!isset($params['server'])) {
-            throw new PEAR_Exception('You must provide a server');
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::NOSERVER
+            );
         }
         $this->server = $params['server'];
 
@@ -126,6 +128,17 @@ class Net_AsteriskManager
                 Net_AsteriskManagerException::NOSOCKET
             );
         }
+    }
+
+    /**
+     * Consolidated method for sending the given command to the server.
+     * 
+     * @param $command The command to send
+     * @return string
+     */
+    private function _sendCommand($command)
+    {
+
     }
 
     /**
