@@ -164,7 +164,7 @@ class Net_AsteriskManager
         self::_checkSocket();
         
         if (strtolower($authtype) == 'md5') {
-            fputs($this->_socket, "Action: Challenge\r\nAuthType: MD5\r\n\r\n");
+            fwrite($this->_socket, "Action: Challenge\r\nAuthType: MD5\r\n\r\n");
             $response = stream_get_contents($this->_socket);
             if (strpos($response, "Response: Success") !== false) {
                 
@@ -172,12 +172,14 @@ class Net_AsteriskManager
                     strpos($response, "Challenge: ")));
 
                 $md5_key = md5($challenge . $password);
-                fputs($this->_socket, "Action: Login\r\nAuthType: MD5\r\n"
+                fwrite($this->_socket, "Action: Login\r\nAuthType: MD5\r\n"
                     ."Username: {$username}\r\n"
                     ."Key: {$md5_key}\r\n\r\n");
                 $response = stream_get_contents($this->_socket);
             } else {
-                throw new PEAR_Exception('Authentication failed');
+                throw new Net_AsteriskManagerException(
+                    Net_AsteriskManagerException::AUTHFAIL
+                );
             }
         } else {
             fwrite($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
