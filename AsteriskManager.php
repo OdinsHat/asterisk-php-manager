@@ -44,7 +44,7 @@
 /**
  * Including the libraries exception class which extends PEAR_Exception
  */
-include 'AsteriskManagerException.php';
+require 'AsteriskManagerException.php';
 
 /**
  * Class for accessing the Asterisk Manager interface 
@@ -116,7 +116,8 @@ class Net_AsteriskManager
     /**
      * Private method for checking there is a socket open to the Asterisk
      * server.
-     *
+     * 
+     * @return null
      */
     private function _checkSocket()
     {
@@ -154,15 +155,37 @@ class Net_AsteriskManager
      *
      * @param string $username The username to access the interface
      * @param string $password The password defined in manager interface of server
+     * @param string $authtype Enabling the ability to handle encrypted connections
      * 
      * @return bool
      */
-    public function login($username, $password)
+    public function login($username, $password, $authtype = null)
     {
         self::_checkSocket();
-        fwrite($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
-                               ."Secret: {$password}\r\n\r\n");
-        $response = stream_get_contents($this->_socket);
+        
+        if (strtolower($authtype) == 'md5') {
+            fputs($this->_socket, "Action: Challenge\r\nAuthType: MD5\r\n\r\n");
+            $response = stream_get_contents($this->_socket);
+            if (strpos($response, "Response: Success") !== false) {
+                
+                $challenge = trim(substr($response, 
+                    strpos($response, "Challenge: ")));
+
+                $md5_key = md5($challenge . $password);
+                fputs($this->_socket, "Action: Login\r\nAuthType: MD5\r\n"
+                    ."Username: {$username}\r\n"
+                    ."Key: {$md5_key}\r\n\r\n");
+                $response = stream_get_contents($this->_socket);
+            } else {
+                throw new PEAR_Exception('Authentication failed');
+            }
+        } else {
+            fwrite($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
+                ."Secret: {$password}\r\n\r\n");
+            $response = stream_get_contents($this->_socket);
+        }
+
+
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
         }
