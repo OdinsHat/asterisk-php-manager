@@ -283,9 +283,7 @@ class Net_AsteriskManager
 
         $response = $this->_sendCommand("Action: Ping\r\n\r\n");
         if (strpos($response, "Pong") === false) {
-            throw new Net_AsteriskManagerException(
-                Net_AsteriskManagerException::NOPONG
-            );
+            return false;
         }
         return true;
     }
