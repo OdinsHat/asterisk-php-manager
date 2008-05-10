@@ -49,11 +49,11 @@ require_once 'PEAR/Exception.php';
  * The exception class for the Asterisk Manager library.  Extends PEAR exception.
  * This class contains static values of error types.
  * 
- * @category    Net
- * @package     Net_AsteriskManager
- * @author      Doug Bromley <doug.bromley@gmail.com>
- * @license     http://www.debian.org/misc/bsd.license New BSD License
- * @link        http://pear.php.net/pepr/pepr-proposal-show.php?id=543
+ * @category Net
+ * @package  Net_AsteriskManager
+ * @author   Doug Bromley <doug.bromley@gmail.com>
+ * @license  http://www.debian.org/misc/bsd.license New BSD License
+ * @link     http://pear.php.net/pepr/pepr-proposal-show.php?id=543
  */
 class Net_AsteriskManagerException extends PEAR_Exception
 {
@@ -64,6 +64,6 @@ class Net_AsteriskManagerException extends PEAR_Exception
     const NOPONG        = 'No response to ping';
     const NOSERVER      = 'No server specified';
     const MONITORFAIL   = 'Monitoring of channel failed';
-    const RESPERR       = 'Server didn\'t respond as expected'
+    const RESPERR       = 'Server didn\'t respond as expected';
     const CMDSENDERR    = 'Sending of command failed';
 }
