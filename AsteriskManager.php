@@ -351,7 +351,7 @@ class Net_AsteriskManager
      * 
      * @return bool
      */
-    public function queueAdd($queue, $handset, $penalty)
+    public function queueAdd($queue, $handset, $penalty = null)
     {
         $this->_checkSocket();
         
