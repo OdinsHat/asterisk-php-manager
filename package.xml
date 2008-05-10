@@ -10,8 +10,8 @@
     <email>doug.bromley@gmail.com</email>
     <active>yes</active>
 </lead>
-<date>2008-03-24</date>
-<time>18:14:51</time>
+<date>2008-05-10</date>
+<time>10:12:00</time>
 <version>
     <release>0.0.3</release>
     <api>0.0.1</api>
@@ -25,6 +25,7 @@
 <contents>
     <dir name="/">
         <file name="AsteriskManager.php" role="php" />
+        <file name="AsteriskManagerException.php" role="php" />
         <dir name="docs/examples/">
             <file name="example.php" role="php" />
         </dir>
