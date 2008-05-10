@@ -64,4 +64,6 @@ class Net_AsteriskManagerException extends PEAR_Exception
     const NOPONG        = 'No response to ping';
     const NOSERVER      = 'No server specified';
     const MONITORFAIL   = 'Monitoring of channel failed';
+    const RESPERR       = 'Server didn\'t respond as expected'
+    const CMDSENDERR    = 'Sending of command failed';
 }

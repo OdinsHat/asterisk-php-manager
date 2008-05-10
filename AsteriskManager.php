@@ -131,14 +131,29 @@ class Net_AsteriskManager
     }
 
     /**
-     * Consolidated method for sending the given command to the server.
+     * Consolidated method for sending the given command to the server and returning
+     * its reponse. Any failure in writing or reading will raise an exception.
      * 
      * @param $command The command to send
      * @return string
      */
     private function _sendCommand($command)
     {
+        if (!fwrite($this->_socket, $command)) {
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::CMDSENDERR
+            );
+        }
 
+        $response = stream_get_contents($this->_socket);
+
+        if ($response == false) {
+            throw new Net_AsteriskManagerException(
+                Net_AsteriskManagerException::RESPERR
+            );
+        }
+
+        return $response;
     }
 
     /**
@@ -174,30 +189,26 @@ class Net_AsteriskManager
      */
     public function login($username, $password, $authtype = null)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         if (strtolower($authtype) == 'md5') {
-            fwrite($this->_socket, "Action: Challenge\r\nAuthType: MD5\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
-            if (strpos($response, "Response: Success") !== false) {
-                
+            $response = $this->_sendCommand("Action: Challenge\r\nAuthType: MD5\r\n\r\n");
+            if (strpos($response, "Response: Success") !== false) {    
                 $challenge = trim(substr($response, 
                     strpos($response, "Challenge: ")));
 
-                $md5_key = md5($challenge . $password);
-                fwrite($this->_socket, "Action: Login\r\nAuthType: MD5\r\n"
+                $md5_key  = md5($challenge . $password);
+                $response = $this->_sendCommand($this->_socket, "Action: Login\r\nAuthType: MD5\r\n"
                     ."Username: {$username}\r\n"
                     ."Key: {$md5_key}\r\n\r\n");
-                $response = stream_get_contents($this->_socket);
             } else {
                 throw new Net_AsteriskManagerException(
                     Net_AsteriskManagerException::AUTHFAIL
                 );
             }
         } else {
-            fwrite($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
+            $response = $this->_sendCommand($this->_socket, "Action: login\r\nUsername: {$username}\r\n"
                 ."Secret: {$password}\r\n\r\n");
-            $response = stream_get_contents($this->_socket);
         }
 
 
@@ -216,9 +227,9 @@ class Net_AsteriskManager
      */
     public function logout()
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
-        fwrite($this->_socket, "Action: Logoff\r\n\r\n");
+        $this->_sendCommand($this->_socket, "Action: Logoff\r\n\r\n");
 
         return true;
     }
@@ -230,7 +241,7 @@ class Net_AsteriskManager
      */
     public function close()
     {
-        self::_checkSocket();
+        $this->_checkSocket();
 
         return fclose($this->_socket);
     }
@@ -245,10 +256,9 @@ class Net_AsteriskManager
      */
     public function command($command)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
     
-        fwrite($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
-        $response = stream_get_contents($this->_socket);
+        $response = $this->_sendCommand($this->_socket, "Action: Command\r\nCommand: $command\r\n\r\n");
 
         if (strpos($response, 'No such command') !== false) {
             throw new Net_AsteriskManagerException(
@@ -265,10 +275,9 @@ class Net_AsteriskManager
      */
     public function ping()
     {
-        self::_checkSocket();
+        $this->_checkSocket();
 
-        fwrite("Action: Ping\r\n\r\n");
-        $response = stream_get_contents($this->_socket);
+        $response = $this->_sendCommand("Action: Ping\r\n\r\n");
         if (strpos($response, "Pong") === false) {
             throw new Net_AsteriskManagerException(
                 Net_AsteriskManagerException::NOPONG
@@ -300,7 +309,7 @@ class Net_AsteriskManager
                            $variables = null, 
                            $action_id = null)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         $command = "Action: Originate\r\nChannel: $channel\r\n"
             ."Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n"
@@ -314,7 +323,7 @@ class Net_AsteriskManager
         if ($action_id) {
             $command .= "ActionID: $action_id\r\n";
         }
-        fwrite($this->_socket, $command."\r\n");
+        $this->_sendCommand($this->_socket, $command."\r\n");
         return true;
     }
 
@@ -325,9 +334,9 @@ class Net_AsteriskManager
      */
     public function getQueues()
     {
-        self::_checkSocket();
+        $this->_checkSocket();
 
-        fwrite($this->_socket, "Action: Queues\r\n\r\n");
+        $this->_sendCommand($this->_socket, "Action: Queues\r\n\r\n");
         $response = stream_get_contents($this->_socket);
         return $response;
     }
@@ -343,7 +352,7 @@ class Net_AsteriskManager
      */
     public function queueAdd($queue, $handset, $penalty)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         $command = "Action: QueueAdd\r\nQueue: $queue\r\n"
                     ."Interface: $handset\r\n";
@@ -366,7 +375,7 @@ class Net_AsteriskManager
      */
     public function queueRemove($queue, $handset) 
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         fwrite($this->_socket, "Action: QueueRemove\r\nQueue: $queue\r\n"
                                ."Interface: $handset\r\n\r\n");
@@ -386,7 +395,7 @@ class Net_AsteriskManager
     public function startMonitor($channel, $filename, $format, $mix = null)
     {
         
-        self::_checkSocket();
+        $this->_checkSocket();
         
         fwrite($this->_socket, "Action: Monitor\r\nChannel: $channel\r\n"
                                ."File: $filename\r\nFormat: $format\r\n"
@@ -412,7 +421,7 @@ class Net_AsteriskManager
      */
     public function stopMonitor($channel)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         fwrite($this->_socket, "Action: StopMonitor\r\n"
                                ."Channel: $channel\r\n\r\n");
@@ -428,7 +437,7 @@ class Net_AsteriskManager
      */
     public function getChannelStatus($channel = null)
     {
-        self::_checkSocket();
+        $this->_checkSocket();
         
         fwrite($this->_socket, "Action: Status\r\nChannel: $channel\r\n\r\n");
         $response = stream_get_contents($this->_socket);
@@ -442,7 +451,7 @@ class Net_AsteriskManager
      */
     public function getSipPeers()
     {
-        self::_checkSocket();
+        $this->_checkSocket();
 
         fwrite($this->_socket, "Action: Sippeers\r\n\r\n");
         $response = stream_get_contents($this->_socket);
@@ -456,7 +465,7 @@ class Net_AsteriskManager
      */
     public function getIaxPeers() 
     {
-        self::_checkSocket();
+        $this->_checkSocket();
 
         fwrite($this->_socket, "Action: IAXPeers\r\n\r\n");
         $response = stream_get_contents($this->_socket);
