@@ -475,6 +475,20 @@ class Net_AsteriskManager
         $response = $this->_sendCommand("Action: IAXPeers\r\n\r\n");
         return $response;
     }
+
+    /**
+     * Returns a list of all parked calls on the server.
+     *
+     * @return string
+     */
+    public function parkedCalls()
+    {
+        $this->_checkSocket();
+
+        $response = $this->_sendCommand("Action: ParkedCalls\r\n"
+            ."Parameters: ActionID\r\n\r\n");
+        return $response;
+    }
 }
 
 ?>
