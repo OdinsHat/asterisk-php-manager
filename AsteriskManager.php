@@ -318,8 +318,12 @@ class Net_AsteriskManager
             ."Callerid: $cid\r\nTimeout: $timeout\r\n";
 
         if (count($variables) > 0) {
-            $variables = implode('|', $variables);
-            $command  .= "Variable: $variables\r\n";
+            $chunked_vars = array();
+            foreach ($variables as $key => $val) {
+                $chunked_vars[] = "$key=$val";
+            }
+            $chunked_vars = implode('|', $chunked_vars);
+            $command     .= "Variable: $variables\r\n";
         }
 
         if ($action_id) {
