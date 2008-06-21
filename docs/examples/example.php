@@ -44,7 +44,7 @@
 /**
  * Including the Asterisk Manager library
  */
-require "AsteriskManager.php";
+require "../../AsteriskManager.php";
 
 
 /**
