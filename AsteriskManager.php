@@ -323,7 +323,7 @@ class Net_AsteriskManager
                 $chunked_vars[] = "$key=$val";
             }
             $chunked_vars = implode('|', $chunked_vars);
-            $command     .= "Variable: $variables\r\n";
+            $command     .= "Variable: $chunked_vars\r\n";
         }
 
         if ($action_id) {
