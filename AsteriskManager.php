@@ -135,10 +135,11 @@ class Net_AsteriskManager
      * its reponse. Any failure in writing or reading will raise an exception.
      * 
      * @param string $command The command to send
+     * @param $terminationString - if supplied, and we find it in the result, quit reading now and don't wait for the timeout
      *
      * @return string
      */
-    private function _sendCommand($command)
+    private function _sendCommand($command, $terminationString = null, $stripTerminator = true)
     {
         if (!fwrite($this->_socket, $command)) {
             throw new Net_AsteriskManagerException(
@@ -146,7 +147,24 @@ class Net_AsteriskManager
             );
         }
 
-        $response = stream_get_contents($this->_socket);
+    
+        $response = false;
+        $break = false;
+        while(!$break && $line = fgets($this->_socket)) {
+            if (!empty($terminationString) && strstr($line, $terminationString) !== FALSE ) {
+                //found termination string
+                $break = true;
+                if (!$stripTerminator) {
+                    $response .= $line;
+                }
+                //what about extra chars after?
+            } else {
+                $response .= $line;
+            }
+
+        }
+
+        //$response = stream_get_contents($this->_socket);
 
         if ($response == false) {
             throw new Net_AsteriskManagerException(
@@ -188,9 +206,10 @@ class Net_AsteriskManager
      * 
      * @return bool
      */
-    public function login($username, $password, $authtype = null)
+    public function login($username, $password, $authtype = null, $eventsoff = false)
     {
         $this->_checkSocket();
+        $events = $eventsoff ? "Events: off\r\n": "";
         
         if (strtolower($authtype) == 'md5') {
             $response = $this->_sendCommand("Action: Challenge\r\n"
@@ -202,7 +221,7 @@ class Net_AsteriskManager
                 $md5_key  = md5($challenge . $password);
                 $response = $this->_sendCommand("Action: Login\r\nAuthType: MD5\r\n"
                     ."Username: {$username}\r\n"
-                    ."Key: {$md5_key}\r\n\r\n");
+                    ."Key: {$md5_key}\r\n$events\r\n");
             } else {
                 throw new Net_AsteriskManagerException(
                     Net_AsteriskManagerException::AUTHFAIL
@@ -211,9 +230,9 @@ class Net_AsteriskManager
         } else {
             $response = $this->_sendCommand("Action: login\r\n"
                 ."Username: {$username}\r\n"
-                ."Secret: {$password}\r\n\r\n");
+                ."Secret: {$password}\r\n$events\r\n", 
+                'Message: Authentication', false);
         }
-
 
         if (strpos($response, "Message: Authentication accepted") != false) {
             return true;
@@ -262,7 +281,7 @@ class Net_AsteriskManager
         $this->_checkSocket();
     
         $response = $this->_sendCommand("Action: Command\r\n"
-            ."Command: $command\r\n\r\n");
+            ."Command: $command\r\n\r\n", "--END COMMAND--");
 
         if (strpos($response, 'No such command') !== false) {
             throw new Net_AsteriskManagerException(
@@ -281,7 +300,7 @@ class Net_AsteriskManager
     {
         $this->_checkSocket();
 
-        $response = $this->_sendCommand("Action: Ping\r\n\r\n");
+        $response = $this->_sendCommand("Action: Ping\r\n\r\n", "Response", false);
         if (strpos($response, "Pong") === false) {
             return false;
         }
@@ -459,7 +478,7 @@ class Net_AsteriskManager
     {
         $this->_checkSocket();
 
-        $response = $this->_sendCommand("Action: Sippeers\r\n\r\n");
+        $response = $this->_sendCommand("Action: Sippeers\r\n\r\n", 'ListItems', false);
         return $response;
     }
 
@@ -472,7 +491,7 @@ class Net_AsteriskManager
     {
         $this->_checkSocket();
 
-        $response = $this->_sendCommand("Action: IAXPeers\r\n\r\n");
+        $response = $this->_sendCommand("Action: IAXPeers\r\n\r\n", ' iax2 peers', false);
         return $response;
     }
 
@@ -486,7 +505,7 @@ class Net_AsteriskManager
         $this->_checkSocket();
 
         $response = $this->_sendCommand("Action: ParkedCalls\r\n"
-            ."Parameters: ActionID\r\n\r\n");
+            ."Parameters: ActionID\r\n\r\n", 'ParkedCallsComplete');
         return $response;
     }
 }
