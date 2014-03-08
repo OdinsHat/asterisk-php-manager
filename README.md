@@ -15,6 +15,9 @@ The [Asterisk](http://www.asterisk.org) Manager PHP API enables a developer to c
 
 This was originally developed to help integrate PHP-driven CRM systems in the lending industry into the Asterisk PBX.
 
+Example
+-------
+
 ```php
 require "../../AsteriskManager.php";
 
