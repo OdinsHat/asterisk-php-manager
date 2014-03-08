@@ -1,7 +1,7 @@
 Asterisk PHP Manager
 ====================
 
-> This was originally hosted at Google Projhect Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
+> This was originally hosted at Google Prohect Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
 
 > However, it is no longer actively developed by me (the original author).
 
