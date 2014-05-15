@@ -5,7 +5,7 @@
  * its built in Manager API.  This will allow you to execute manager commands
  * for administration and maintenance of the server.
  * 
- * Copyright (c) 2008, Doug Bromley <doug.bromley@gmail.com>
+ * Copyright (c) 2008-2014, Doug Bromley <doug@tintophat.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -35,10 +35,11 @@
  *
  * @category  Net
  * @package   Net_AsteriskManager
- * @author    Doug Bromley <doug.bromley@gmail.com>
- * @copyright 2008 Doug Bromley
+ * @author    Doug Bromley <doug@tintophat.com>
+ * @copyright 2008-2014 Doug Bromley
  * @license   http://www.debian.org/misc/bsd.license New BSD License
  * @link      http://pear.php.net/pepr/pepr-proposal-show.php?id=543
+ * @link      https://github.com/OdinsHat/asterisk-php-manager
  */
 
 /**
