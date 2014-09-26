@@ -213,11 +213,13 @@ class Net_AsteriskManager
         $events = $eventsoff ? "Events: off\r\n": "";
         
         if (strtolower($authtype) == 'md5') {
-            $response = $this->_sendCommand("Action: Challenge\r\n"
-                ."AuthType: MD5\r\n\r\n");
-            if (strpos($response, "Response: Success") !== false) {    
-                $challenge = trim(substr($response, 
-                    strpos($response, "Challenge: ")));
+            $response = $this->_sendCommand(
+                "Action: Challenge\r\n"
+                ."AuthType: MD5\r\n\r\n"
+            );
+            if (strpos($response, "Response: Success") !== false) {
+                $challenge = trim(substr($response,
+                    strpos($response, "Challenge: ")+strlen("Challenge: ")));
 
                 $md5_key  = md5($challenge . $password);
                 $response = $this->_sendCommand("Action: Login\r\nAuthType: MD5\r\n"
