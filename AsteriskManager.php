@@ -148,11 +148,11 @@ class Net_AsteriskManager
             );
         }
 
-    
+
         $response = false;
         $break = false;
-        while(!$break && $line = fgets($this->_socket)) {
-            if (!empty($terminationString) && strstr($line, $terminationString) !== FALSE ) {
+        while (!$break && $line = fgets($this->_socket)) {
+            if (!empty($terminationString) && strstr($line, $terminationString) !== false ) {
                 //found termination string
                 $break = true;
                 if (!$stripTerminator) {
@@ -231,10 +231,13 @@ class Net_AsteriskManager
                 );
             }
         } else {
-            $response = $this->_sendCommand("Action: login\r\n"
+            $response = $this->_sendCommand(
+                "Action: login\r\n"
                 ."Username: {$username}\r\n"
-                ."Secret: {$password}\r\n$events\r\n", 
-                'Message: Authentication', false);
+                ."Secret: {$password}\r\n$events\r\n",
+                'Message: Authentication',
+                false
+            );
         }
 
         if (strpos($response, "Message: Authentication accepted") != false) {
@@ -324,17 +327,18 @@ class Net_AsteriskManager
      *
      * @return bool
      */
-    public function originateCall($extension, 
-                           $channel, 
-                           $context, 
-                           $cid, 
-                           $priority = 1, 
-                           $timeout = 30000, 
-                           $variables = null, 
-                           $action_id = null)
+    public function originateCall(
+        $extension,
+        $channel,
+        $context,
+        $cid,
+        $priority = 1,
+        $timeout = 30000,
+        $variables = null,
+        $action_id = null)
     {
         $this->_checkSocket();
-        
+
         $command = "Action: Originate\r\nChannel: $channel\r\n"
             ."Context: $context\r\nExten: $extension\r\nPriority: $priority\r\n"
             ."Callerid: $cid\r\nTimeout: $timeout\r\n";
@@ -395,18 +399,20 @@ class Net_AsteriskManager
 
     /**
      * Remove a handset from the given queue
-     * 
+     *
      * @param string $queue   The queue you wish to perform this action on
      * @param string $handset The handset you wish to remove (e.g. SIP/200)
      *
      * @return bool
      */
-    public function queueRemove($queue, $handset) 
+    public function queueRemove($queue, $handset)
     {
         $this->_checkSocket();
-        
-        $this->_sendCommand("Action: QueueRemove\r\nQueue: $queue\r\n"
-            ."Interface: $handset\r\n\r\n");
+
+        $this->_sendCommand(
+            "Action: QueueRemove\r\nQueue: $queue\r\n"
+            ."Interface: $handset\r\n\r\n"
+        );
 
         return true;
     }
@@ -423,13 +429,15 @@ class Net_AsteriskManager
      */
     public function startMonitor($channel, $filename, $format, $mix = null)
     {
-        
+
         $this->_checkSocket();
-        
-        $response = $this->_sendCommand("Action: Monitor\r\nChannel: $channel\r\n"
-                               ."File: $filename\r\nFormat: $format\r\n"
-                               ."Mix: $mix\r\n\r\n");
-        
+
+        $response = $this->_sendCommand(
+            "Action: Monitor\r\nChannel: $channel\r\n"
+            ."File: $filename\r\nFormat: $format\r\n"
+            ."Mix: $mix\r\n\r\n"
+        );
+
         if (strpos($response, "Success") === false) {
             throw new Net_AsteriskManagerException(
                 Net_AsteriskManagerException::MONITORFAIL
@@ -449,9 +457,11 @@ class Net_AsteriskManager
     public function stopMonitor($channel)
     {
         $this->_checkSocket();
-        
-        $this->_sendCommand("Action: StopMonitor\r\n"
-                            ."Channel: $channel\r\n\r\n");
+
+        $this->_sendCommand(
+            "Action: StopMonitor\r\n"
+            ."Channel: $channel\r\n\r\n"
+        );
         return true;
     }
 
@@ -459,16 +469,18 @@ class Net_AsteriskManager
      * Get the status information for a channel
      *
      * @param string $channel The channel to query
-     * 
+     *
      * @return string|string
      */
     public function getChannelStatus($channel = null)
     {
         $this->_checkSocket();
-        
-        $response = $this->_sendCommand("Action: Status\r\nChannel: "
-            ."$channel\r\n\r\n");
-        
+
+        $response = $this->_sendCommand(
+            "Action: Status\r\nChannel: "
+            ."$channel\r\n\r\n"
+        );
+
         return $response;
     }
 
@@ -490,11 +502,15 @@ class Net_AsteriskManager
      *
      * @return string|bool
      */
-    public function getIaxPeers() 
+    public function getIaxPeers()
     {
         $this->_checkSocket();
 
-        $response = $this->_sendCommand("Action: IAXPeers\r\n\r\n", ' iax2 peers', false);
+        $response = $this->_sendCommand(
+            "Action: IAXPeers\r\n\r\n",
+            ' iax2 peers',
+            false
+        );
         return $response;
     }
 
@@ -507,8 +523,11 @@ class Net_AsteriskManager
     {
         $this->_checkSocket();
 
-        $response = $this->_sendCommand("Action: ParkedCalls\r\n"
-            ."Parameters: ActionID\r\n\r\n", 'ParkedCallsComplete');
+        $response = $this->_sendCommand(
+            "Action: ParkedCalls\r\n"
+            ."Parameters: ActionID\r\n\r\n",
+            'ParkedCallsComplete'
+        );
         return $response;
     }
 }
