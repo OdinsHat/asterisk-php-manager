@@ -91,6 +91,8 @@ class Net_AsteriskManager
      *       'auto_connect' => true     // Autoconnect on construction?
      *      );
      * </code>
+     *
+     * @throws Net_AsteriskManagerException when server not set
      * 
      * @uses AsteriskManager::$server
      * @uses AsteriskManager::$port
@@ -119,6 +121,8 @@ class Net_AsteriskManager
     /**
      * Private method for checking there is a socket open to the Asterisk
      * server.
+     *
+     * @throws Net_AsteriskManagerException when no socket established
      * 
      * @return null
      */
@@ -135,8 +139,10 @@ class Net_AsteriskManager
      * Consolidated method for sending the given command to the server and returning
      * its reponse. Any failure in writing or reading will raise an exception.
      * 
-     * @param string $command The command to send
-     * @param $terminationString - if supplied, and we find it in the result, quit reading now and don't wait for the timeout
+     * @param string $command               The command to send
+     * @param string $terminationString     If supplied, and we find it in the result quit reading now and don't wait for the timeout
+     *
+     * @throws Net_AsteriskManagerException when failing to write command to Asterisk
      *
      * @return string
      */
@@ -165,9 +171,7 @@ class Net_AsteriskManager
 
         }
 
-        //$response = stream_get_contents($this->_socket);
-
-        if ($response == false) {
+        if (!$response) {
             throw new Net_AsteriskManagerException(
                 Net_AsteriskManagerException::RESPERR
             );
@@ -179,6 +183,8 @@ class Net_AsteriskManager
     /**
      * If not already connected then connect to the Asterisk server
      * otherwise close active connection and reconnect
+     *
+     * @throws Net_AsteriskManagerException if connection fails
      *
      * @return bool
      */
@@ -204,6 +210,8 @@ class Net_AsteriskManager
      * @param string $username The username to access the interface
      * @param string $password The password defined in manager interface of server
      * @param string $authtype Enabling the ability to handle encrypted connections
+     *
+     * @throws Net_AsteriskManagerException
      * 
      * @return bool
      */
@@ -240,7 +248,7 @@ class Net_AsteriskManager
             );
         }
 
-        if (strpos($response, "Message: Authentication accepted") != false) {
+        if (strpos($response, "Message: Authentication accepted") !== false) {
             return true;
         }
         throw new Net_AsteriskManagerException(
@@ -279,6 +287,8 @@ class Net_AsteriskManager
      * are dependent on the Asterisk installation.
      *
      * @param string $command Command to execute on server
+     *
+     * @throws Net_AsteriskManagerException if Asterisk responds that command not known
      *
      * @return string|bool
      */
@@ -424,6 +434,8 @@ class Net_AsteriskManager
      * @param string  $filename The filename to save to
      * @param string  $format   The format of the file (e.g. gsm, wav)
      * @param integer $mix      Boolean 1 or 0 on whether to mix
+     *
+     * @throws Net_AsteriskManagerException if the monitor command fails
      *
      * @return bool
      */
