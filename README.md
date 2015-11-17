@@ -1,9 +1,10 @@
 Asterisk PHP Manager
 ====================
+<img src="https://cloud.githubusercontent.com/assets/1061673/11204113/72f5df0a-8cf3-11e5-8a7f-1ab01d7f9181.png" align="right" />
 
-> This was originally hosted at Google Prohect Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
+This was originally hosted at Google Prohect Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
 
-> However, it is no longer actively developed by me (the original author).
+However, it is no longer actively developed by me (the original author).
 
 The [Asterisk](http://www.asterisk.org) Manager PHP API enables a developer to control their Asterisk PBX system from a PHP application.  Allowing for call origination, monitoring, queue management, etc. Other examples include:
 
