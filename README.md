@@ -2,7 +2,7 @@ Asterisk PHP Manager
 ====================
 <img src="https://cloud.githubusercontent.com/assets/1061673/11204113/72f5df0a-8cf3-11e5-8a7f-1ab01d7f9181.png" align="right" />
 
-This was originally hosted at Google Prohect Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
+This was originally hosted at Google Project Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
 
 However, it is no longer actively developed by me (the original author).
 
