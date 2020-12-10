@@ -388,15 +388,20 @@ class Net_AsteriskManager
      * @param string  $queue   The name of the queue you wish to add the handset too
      * @param string  $handset The handset to add, e.g. SIP/234
      * @param integer $penalty Penalty
+     * @param string  $memberName Human readable name of handset
      * 
      * @return bool
      */
-    public function queueAdd($queue, $handset, $penalty = null)
+    public function queueAdd($queue, $handset, $penalty = null, $memberName = null)
     {
         $this->_checkSocket();
         
         $command = "Action: QueueAdd\r\nQueue: $queue\r\n"
                     ."Interface: $handset\r\n";
+
+        if ($memberName) {
+            $command .= "MemberName: $memberName\r\n";
+        }
 
         if ($penalty) {
             $this->_sendCommand($command."Penalty: $penalty\r\n\r\n");
@@ -422,6 +427,48 @@ class Net_AsteriskManager
         $this->_sendCommand(
             "Action: QueueRemove\r\nQueue: $queue\r\n"
             ."Interface: $handset\r\n\r\n"
+        );
+
+        return true;
+    }
+    
+    /**
+     * Pause a handset from the given queue
+     *
+     * @param string $queue   The queue you wish to perform this action on
+     * @param string $handset The handset you wish to remove (e.g. SIP/200)
+     *
+     * @return bool
+     */
+    public function queuePause($queue, $handset)
+    {
+        $this->_checkSocket();
+
+        $this->_sendCommand(
+            "Action: QueuePause\r\nQueue: $queue\r\n"
+            ."Interface: $handset\r\n"
+            ."Paused: True\r\n\r\n"
+        );
+
+        return true;
+    }
+    
+    /**
+     * Unpause a handset from the given queue
+     *
+     * @param string $queue   The queue you wish to perform this action on
+     * @param string $handset The handset you wish to remove (e.g. SIP/200)
+     *
+     * @return bool
+     */
+    public function queueUnpause($queue, $handset)
+    {
+        $this->_checkSocket();
+
+        $this->_sendCommand(
+            "Action: QueuePause\r\nQueue: $queue\r\n"
+            ."Interface: $handset\r\n"
+            ."Paused: False\r\n\r\n"
         );
 
         return true;
