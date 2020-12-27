@@ -1,5 +1,7 @@
-Asterisk PHP Manager
-====================
+# Asterisk PHP Manager
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+
 <img src="https://cloud.githubusercontent.com/assets/1061673/11204113/72f5df0a-8cf3-11e5-8a7f-1ab01d7f9181.png" align="right" />
 
 This was originally hosted at Google Project Code hosting but has been moved to GitHub to make it easier or people to do with as they please.
@@ -16,8 +18,7 @@ The [Asterisk](http://www.asterisk.org) Manager PHP API enables a developer to c
 
 This was originally developed to help integrate PHP-driven CRM systems in the lending industry into the Asterisk PBX.
 
-Example
--------
+## Example
 
 ```php
 require "../../AsteriskManager.php";
